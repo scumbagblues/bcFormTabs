@@ -1,0 +1,13 @@
+.even {
+	background:	#f6f5f9;
+	font-family:Tahoma,Verdana,Arial;
+	font-size:11px;
+}
+
+.odd {
+font-family:Tahoma,Verdana,Arial;
+	font-size:11px;
+}
+
+
+.highlighted { background: yellow; }

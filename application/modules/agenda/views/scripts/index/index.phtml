@@ -1,0 +1,135 @@
+<ul class="nav nav-tabs" id="calendario">
+  <li class="active"><a href="#mes">Mes</a></li>
+  <li><a href="#dia">Día</a></li>
+</ul>
+ 
+<div class="tab-content">
+  <div class="tab-pane active" id="mes">
+  Medicos: <?php echo $this->formSelect('doctores', null, null, $this->doctores) ?>
+  	<div class='table-header'>
+  		<div class='row-fluid'>
+  			<div class='span4'>
+	  			<a class='mesanterior' href="<?php echo $this->baseUrl()?>/agenda/index/index/mes/<?php echo $this->mes_anterior?>/anio/<?php echo $this->anio_anterior?>">
+	  				<i class="icon-arrow-left icon-white"></i>Anterior
+	  			</a>
+  			</div>
+  			<div class='span4'>
+  				<h4><?php echo $this->calendar_date;?></h4>
+  			</div>
+  			<div class='span4'>
+  				<a class='messiguiente' href="<?php echo $this->baseUrl()?>/agenda/index/index/mes/<?php echo $this->mes_siguiente?>/anio/<?php echo $this->anio_siguiente?>">
+  					<i class="icon-arrow-right icon-white"></i>Siguiente
+  				</a>
+  			</div>	
+  		</div>
+  		
+  	</div>
+  	<table class="tablacalendario">
+  		<tbody>
+  			<tr>
+			    <td width="14%" class="diasemana">Lun</td>
+			    <td width="14%" class="diasemana">Mar</td>
+			    <td width="14%" class="diasemana">Mie</td>
+			    <td width="14%" class="diasemana">Jue</td>
+			    <td width="14%" class="diasemana">Vie</td>
+			    <td width="14%" class="diasemana">Sab</td>
+			    <td width="14%" class="diasemana">Dom</td>
+			</tr>
+			<?php echo $this->calendar;?>
+		</tbody>
+	</table>
+  </div>
+  
+  <!-- segunda tab -->
+  <div class="tab-pane" id="dia">
+  	<div class='table-header'>
+  		<div><h4>CITAS DEL DIA: <?php echo $this->fecha;?></h4></div>
+  	</div>
+  	
+  	<table class='table table-hover'>
+		<tr>
+			<td><a href="#" onclick="" >08:00</a></td>
+			<td><table><tr></tr></table></td>
+		</tr>
+		<tr class='tr_bg_dia'>
+			<td><a href="#" onclick="" >09:00</a></td>
+			<td>
+				<table>
+					<tr>
+						<td> 
+							Medico: 	Eyvin Areli Gomez Sánchez<br>
+							Paciente:   SILVIA MIRIAM ROCHA ANGELES<br>
+							Asunto:    	test<br>
+							Hora Inicio: <b>09:00:00</b> &nbsp;&nbsp;Hora Fin: <b>12:00:00</b><br><br>
+							<a onclick="" href="#">CANCELAR</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td><a href="#" onclick="" >10:00</a></td>
+			<td><table><tr></tr></table></td>
+		</tr>
+		<tr class='tr_bg_dia'>
+			<td><a href="#" onclick="" >11:00</a></td>
+			<td><table><tr></tr></table></td>
+		</tr>
+		<tr>
+			<td><a href="#" onclick="" >12:00</a></td>
+			<td><table><tr></tr></table></td>
+		</tr>
+		<tr class='tr_bg_dia'>
+			<td><a href="#" onclick="" >13:00</a></td>
+			<td><table><tr></tr></table></td>
+		</tr>
+		<tr>
+			<td><a href="#" onclick="" >14:00</a></td>
+			<td><table><tr></tr></table></td>
+		</tr>
+		<tr class='tr_bg_dia'>
+			<td><a href="#" onclick="" >15:00</a></td>
+			<td><table><tr></tr></table></td>
+		</tr>
+		<tr>
+			<td><a href="#" onclick="" >16:00</a></td>
+			<td><table><tr></tr></table></td>
+		</tr>
+		<tr class='tr_bg_dia'>
+			<td><a href="#" onclick="" >17:00</a></td>
+			<td><table><tr></tr></table></td>
+		</tr>
+		<tr>
+			<td><a href="#" onclick="" >18:00</a></td>
+			<td><table><tr></tr></table></td>
+		</tr>
+		<tr class='tr_bg_dia'>
+			<td><a href="#" onclick="" >19:00</a></td>
+			<td><table><tr></tr></table></td>
+		</tr>
+		<tr>
+			<td><a href="#" onclick="" >20:00</a></td>
+			<td><table><tr></tr></table></td>
+		</tr>
+		<tr class='tr_bg_dia'>
+			<td><a href="#" onclick="" >21:00</a></td>
+			<td><table><tr></tr></table></td>
+		</tr>
+		<tr>
+			<td><a href="#" onclick="" >22:00</a></td>
+			<td><table><tr></tr></table></td>
+		</tr>
+		<tr class='tr_bg_dia'>
+			<td><a href="#" onclick="" >23:00</a></td>
+			<td><table><tr></tr></table></td>
+		</tr>
+		</table>
+  </div>
+</div>
+ 
+<script>
+$('#calendario a').click(function (e) {
+	  e.preventDefault();
+	  $(this).tab('show');
+	})
+</script> 

@@ -1,0 +1,213 @@
+.alert{
+	margin-left:-100px;
+}
+.alert-font-size{
+	font-size: 11px;
+}
+
+.box_link{
+	color: #fff;
+}
+th {
+    background-color: #D9EDF7;
+    border-color: #CCCCCC;
+}
+.table-header {
+   display: inline-block;
+  *display: inline;
+  padding: 4px 12px;
+  margin-bottom: 0;
+  *margin-left: .3em;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid #cccccc;
+  border-bottom-color: #b3b3b3;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe6e6e6', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+  *zoom: 1;
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+     -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);	
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: #49afcd;
+  *background-color: #2f96b4;
+  background-image: -moz-linear-gradient(top, #5bc0de, #2f96b4);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#5bc0de), to(#2f96b4));
+  background-image: -webkit-linear-gradient(top, #5bc0de, #2f96b4);
+  background-image: -o-linear-gradient(top, #5bc0de, #2f96b4);
+  background-image: linear-gradient(to bottom, #5bc0de, #2f96b4);
+  background-repeat: repeat-x;
+  border-color: #2f96b4 #2f96b4 #1f6377;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff5bc0de', endColorstr='#ff2f96b4', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+  width:98%;
+  margin-bottom: 16px;
+}
+
+
+
+.tr_bg_dia {
+	background: #FFDF80
+}
+
+
+
+.tablacalendario {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-collapse: separate;
+    border-color: #BBBBBB;
+    border-image: none;
+    border-spacing: 0;
+    border-style: solid;
+    border-width: 1px 0 0 1px;
+    font-size: 20px;
+    height: 600px;
+    width: 100%;
+}
+.tablacalendario TD {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #BBBBBB;
+    border-image: none;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    text-align: center;
+}
+.diasemana {
+    background-color: #FFDF80;
+    color: #000;
+    font-family: verdana,arial,helvetica;
+    font-size: 12pt;
+    text-align: center;
+}
+.tit, .titmesano {
+    background-color: #027BB4;
+    color: #FFFFFF;
+    font-family: verdana,arial,helvetica;
+    font-size: 12pt;
+    font-weight: bold;
+}
+.titmesano {
+    text-align: center;
+}
+.messiguiente, .mesanterior {
+    color: white;
+}
+.mesanterior {
+    text-align: right;
+}
+.messiguiente a, .mesanterior a {
+    color: white;
+    text-decoration: none;
+}
+.diavalido {
+    text-align: left;
+}
+.diainvalido {
+}
+.hoy {
+    background-color: #CCCCCC;
+    color: #585858;
+}
+.domingo {
+    color: #990000;
+    font-family: verdana,arial,helvetica;
+}
+.diario {
+    color: #000000;
+    font-family: verdana,arial,helvetica;
+}
+.cita {
+}
+.tablacalendario .cita {
+    font-size: 10pt;
+    font-weight: bold;
+}
+.tform {
+    border-color: #75263C;
+    border-style: solid;
+    border-width: 1px;
+}
+.tablacalendario2 {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-collapse: separate;
+    border-color: #BBBBBB;
+    border-image: none;
+    border-spacing: 0;
+    border-style: solid;
+    border-width: 1px 0 0 1px;
+    height: 130px;
+    width: 200px;
+}
+.tablacalendario2 TD {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #BBBBBB;
+    border-image: none;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    text-align: center;
+}
+.tit2, .titmesano2 {
+    background-color: #333333;
+    color: #FFFFFF;
+    font-family: verdana,arial,helvetica;
+    font-size: 10pt;
+    font-weight: bold;
+}
+.diasemana2 {
+    background-color: #666666;
+    color: #FFFFFF;
+    font-family: verdana,arial,helvetica;
+    font-size: 9pt;
+    text-align: center;
+}
+.hoy2 {
+    background-color: #CCCCCC;
+    color: #585858;
+    font-size: 9pt;
+}
+.domingo2 {
+    font-size: 9pt;
+}
+.diario2 {
+    font-size: 9pt;
+}
+.tablacalendario2 .cita {
+    background-color: #EAEA00;
+}
+.htitle {
+    font-size: 16px;
+}
+.htitle2 {
+    color: #FFFFFF;
+    font-size: 18px;
+}
+.htitleh {
+    font-size: 25px;
+}
+.htitlehI {
+    background-color: #CEE6FF;
+    font-size: 25px;
+}
+.htitleh a {
+    color: #333333;
+    font-size: 25px;
+}

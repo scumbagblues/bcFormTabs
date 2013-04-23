@@ -1,0 +1,13 @@
+<?php
+	$this->title = $this->catalog_name;//"{$this->action} {$this->catalog}";
+	$this->headTitle($this->title);
+?>
+	<div class='row-fluid'>
+	    <div class='span4'>
+	    	<h3><?php echo $this->title; ?></h3>
+		</div>
+    </div>
+    <div class="divisor"></div>
+		<?php echo $this->form ; ?>
+		<!-- Leyenda al final de la forma -->
+		<?php echo $this->legend;?>

@@ -1,0 +1,28 @@
+<?php
+	$this->title = $this->catalog_name;//"{$this->action} {$this->catalog}";
+	$this->headTitle($this->title);
+?>
+<div class='row-fluid'>
+	    <div class='span4'>
+	    	<h2><?php echo $this->title; ?></h2>
+		</div>
+    </div>
+    <div class="divisor"></div>
+    <div class='pull-left'>
+    <?php 
+    	if ($this->add->list){	
+    ?>
+    	<div>
+    		<a href="<?php echo $this->add->url?>" class="btn btn-info">
+    			<i class="icon-white icon-plus"></i> Agregar <?php echo $this->add->name;?>    	
+    		</a>
+    	</div>
+    <?php 
+    	}
+    ?>
+    </div><br><br>
+    	<?php echo $this->pagination;?>
+		<?php echo $this->list ; ?>
+		<?php echo $this->pagination;?>
+		<!-- Leyenda al final de la forma -->
+		<?php echo $this->legend;?>

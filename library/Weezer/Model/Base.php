@@ -1,0 +1,119 @@
+<?php
+/**
+ * 
+ * Modelo base para los catalogos
+ * @author scumbagblues
+ *
+ */
+
+class Weezer_Model_Base extends Zend_Db_Table_Abstract{
+	
+	public $_table_prefix = null;
+	
+	public function init(){
+		
+	}
+	
+	public function preSave(& $form, & $form_data){
+		return TRUE;
+	}
+	
+	public function postSave($values){
+		return TRUE;
+	}
+	
+	/**
+	 * 
+	 * Metodo que obtiene la información de un registro
+	 * por su ID
+	 * @param unknown_type $param
+	 */
+	public function getData($param = null){
+		if (!is_null($param)){
+			$campo_id = "{$this->_table_prefix}_id =  {$param}";
+		}else{
+			$campo_id = null;
+		}
+		$row = $this->fetchRow($campo_id);
+        if (!$row) {
+            throw new Exception("No se encontro el registro con ID: {$param}");
+        }
+        return $row->toArray();
+	}
+	
+	/**
+	 * 
+	 * M�todo para obtener un row de acuerdo a su clausula "where"
+	 * @param unknown_type $where
+	 * @param unknown_type $order
+	 */
+	public function getRow($where, $order=null){
+        $row = $this->fetchRow($where, $order);
+        if(! $row)
+        {
+            return array();
+        }
+        return $row->toArray();
+    }
+    
+    /**
+     * 
+     * Metodo para obtener un array de registros
+     * @param unknown_type $where
+     * @param unknown_type $order
+     */
+    public function getAll($where=null, $order=null){
+        //devuelve todos los registros de la tabla filtrado y ordenado segun los parametros enviados
+        return $this->fetchAll($where, $order)->toArray();
+    }
+    
+    public function getPrefix(){
+        return $this->_table_prefix;
+    }
+    
+	public function getDefaultData()
+    {
+    	if (is_null(Zend_Auth::getInstance()->getIdentity()->usu_id)){
+    		$id_user = '1';
+    	}else{
+    		$id_user = Zend_Auth::getInstance()->getIdentity()->usu_id;
+    	}
+	    $data["{$this->_table_prefix}_uid"] = $id_user;
+	    $data["{$this->_table_prefix}_udt"] = date('Y-m-d H:i:s');
+	    
+	    return $data;
+    }
+    
+	public function addElements($data){
+	    //TODO insertar datos
+	    //TODO crear log
+	    $data = array_merge($data, $this->getDefaultData());
+	    $id = $this->insert($data);
+	  	//Si se inserto correctamente la info
+	  	//se devuelve y se adjunta su nuevo id
+	    if ($id){
+	    	$data = array_merge($data,array('id' => $id));
+	    }
+	    
+	    return $data;
+	    
+	}
+	
+	public function updateElements($data,$id = null,$where = null){
+		
+		if (!is_null($id)){
+			 $where_update = "{$this->_table_prefix}_id = '{$id}'";
+		}else if (!is_null($where)){
+			$where_update = $where;
+		}
+		$this->update($data, $where_update);
+	}
+	
+	
+	public function deleteElement($id){
+		 $where_delete = "{$this->_table_prefix}_id = '{$id}'";
+		 $field_delete = array("{$this->_table_prefix}_activo" => '0');
+		 
+		 $this->update($field_delete, $where_delete);
+	}
+}
