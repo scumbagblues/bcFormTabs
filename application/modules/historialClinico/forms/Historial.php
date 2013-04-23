@@ -8,6 +8,6 @@ class HistorialClinico_Form_Historial extends Weezer_Catalog_Form_Abstract
         /* Form Elements & Other Definitions Here ... */
     }
 
-
+	
 }
 

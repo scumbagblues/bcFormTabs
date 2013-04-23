@@ -46,6 +46,12 @@ class Weezer_Controller_Base extends Zend_Controller_Action{
 			}
 		}
 		
+		if (isset($params['redirect'])){
+			$redirect_array = $params['redirect'];
+		}else{
+			$redirect_array = array();
+		}
+		
 		$form_params = array(
 							'table' => $this->_form_table,
 							'formAttribs' => array(
@@ -74,7 +80,7 @@ class Weezer_Controller_Base extends Zend_Controller_Action{
 				}
 				if ($model->postSave()){
 					//Se redirige en caso de asi indicarlo
-					$this->redirectAfterPost();
+					$this->redirectAfterPost($redirect_array);
 				}else{
 					
 				}
@@ -114,11 +120,19 @@ class Weezer_Controller_Base extends Zend_Controller_Action{
 		}
 	}
 	
-	public function redirectAfterPost(){
-		$url_params 		= $this->getRequest()->getParams();
-		$module 			= $url_params['module'];
-		$controller 		= $url_params['controller'];
-		$url = "{$module}/{$controller}/";
+	public function redirectAfterPost($params = array()){
+		
+		if (!empty($params)){
+			$module 	= $params['module'];
+			$controller = $params['controller'];
+			$action 	= $params['action'];
+		}else{
+			$url_params 		= $this->getRequest()->getParams();
+			$module 			= $url_params['module'];
+			$controller 		= $url_params['controller'];
+		}
+		
+		$url = "{$module}/{$controller}/$action";
 		if ($this->_redirect_after_post){
 			$this->_redirect($url);
 		}

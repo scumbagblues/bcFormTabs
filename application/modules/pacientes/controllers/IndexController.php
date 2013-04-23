@@ -15,11 +15,23 @@ class Pacientes_IndexController extends Weezer_Controller_Base
     
     public function addAction(){
     	
+    	//Para saber si proviene de la generacion de un nuevo historial clinico
+    	$hc_param = $this->_getParam('hc');
+    	
     	$params = array('attribs' => array('decorators' => array('pac_idestado' => 'SelectEstados'
     															  ,'pac_idciudad' => 'SelectCiudades'),
     										 'field_attribs' => array('pac_idestado' => 
     															  		array('onchange' => "javascript: weezer.combos.select(this.value,'pacientes index ajax','pac_idciudad')")),
-    										));
+    										),			
+    					);
+    					
+    	if ($hc_param){
+    		$redirect_param = array('redirect' => array('module' => 'historialClinico'
+    										 			,'controller' => 'index'
+    										 			,'action' => 'index')
+    								);		
+    		$params = array_merge($params,$redirect_param);						 					
+    	}				
     	
     	$this->createForm('add', $this->_table,$params);
     	$this->_forward('catalogform','index','default');

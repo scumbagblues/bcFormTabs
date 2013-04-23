@@ -7,5 +7,9 @@ class Pacientes_Model_Pacientes extends Weezer_Model_Base{
     public $_table_prefix = 'pac';
     
     
-    
+     public function addElements($data){
+     	$data = parent::addElements($data);
+     	$paciente_data = new Zend_Session_Namespace('paciente_data');
+     	$paciente_data->info = $data;
+     } 
 }

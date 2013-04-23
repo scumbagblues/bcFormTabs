@@ -20,6 +20,9 @@ class Default_View_Helper_MenuPrincipal extends Zend_View_Helper_Abstract{
 								'agenda_medica' => array('label' => 'Agenda medica',
 														 'url'	=> "_BASEURL_/agenda/",
 														 'module'  => 'agenda'),
+								'historial_clinico' => array('label' => 'Historial clinico',
+														 'url'	=> "_BASEURL_/historialClinico/",
+														 'module'  => 'historialClinico'),						
 
 								'datos_generales'=> array('label' => 'Datos Generales',
 														  'url' => '#',
