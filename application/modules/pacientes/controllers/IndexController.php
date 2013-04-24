@@ -28,7 +28,7 @@ class Pacientes_IndexController extends Weezer_Controller_Base
     	if ($hc_param){
     		$redirect_param = array('redirect' => array('module' => 'historialClinico'
     										 			,'controller' => 'index'
-    										 			,'action' => 'index')
+    										 			,'action' => 'addid')
     								);		
     		$params = array_merge($params,$redirect_param);						 					
     	}				

@@ -273,8 +273,8 @@ class Weezer_Catalog_Form extends Weezer_Catalog_Form_Abstract{
 		$num_args = func_num_args();
 		$form_params = func_get_arg(0);
 		$attribs = $form_params['attribs'];
-		//var_dump($params,$attribs['decorators']);die;
-		if (!empty($params)){
+
+		if (!empty($params) && is_array($attribs)){
 			if ($num_args > 0){
 				$form_params = func_get_arg(0);
 				$attribs = $form_params['attribs'];
@@ -295,6 +295,12 @@ class Weezer_Catalog_Form extends Weezer_Catalog_Form_Abstract{
 			//die;
 			$this->_fields_decorators 	= $form_decorators;
 			$this->_field_attribs 		= $form_field_attribs;
+		}else{
+			if(isset($params['labelSubmit'])){
+		    	$this->_label_submit = $params['labelSubmit'];
+		    }else{
+		    	$this->_label_submit = 'Guardar';
+		    }
 		}
 		
 	}

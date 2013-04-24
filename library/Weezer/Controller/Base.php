@@ -81,7 +81,7 @@ class Weezer_Controller_Base extends Zend_Controller_Action{
 					$id = $this->_getParam('id');
 					$model->updateElements($form_data,$id);
 				}
-				if ($model->postSave()){
+				if ($model->postSave($form_data)){
 					//Se redirige en caso de asi indicarlo
 					$this->redirectAfterPost($redirect_array);
 				}else{
@@ -136,9 +136,12 @@ class Weezer_Controller_Base extends Zend_Controller_Action{
 		}
 		
 		$url = "{$module}/{$controller}/$action";
+
 		if ($this->_redirect_after_post){
 			$this->_redirect($url);
 		}
+		
+	
 	}
 	
 	/**
