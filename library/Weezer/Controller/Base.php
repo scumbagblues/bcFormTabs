@@ -11,6 +11,7 @@ class Weezer_Controller_Base extends Zend_Controller_Action{
 	protected $_action_form;
 	protected $_form_table;
 	protected $_redirect_after_post;
+
 	
 	public function getFormFields(){
 		

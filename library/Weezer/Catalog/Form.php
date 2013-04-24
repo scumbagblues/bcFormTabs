@@ -187,7 +187,7 @@ class Weezer_Catalog_Form extends Weezer_Catalog_Form_Abstract{
 		//arreglo llave=valor
 		foreach($return_type as $valor)
 		{
-		    $resultado[$valor] = $valor;
+		    $resultado[$valor] = utf8_encode($valor);
 		}
 		
 		return $resultado;

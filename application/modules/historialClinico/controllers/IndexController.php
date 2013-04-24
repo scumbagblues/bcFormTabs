@@ -2,7 +2,8 @@
 
 class HistorialClinico_IndexController extends Weezer_Controller_Base
 {
-
+	
+	
     public function init()
     {
         /* Initialize action controller here */
@@ -14,8 +15,8 @@ class HistorialClinico_IndexController extends Weezer_Controller_Base
         
     }
     
-    public function addAction(){
-    	
+    public function addidAction(){
+    	$this->createForm('add','Pacientes_Model_Identificacion',$params);    	
     }
 	
 
