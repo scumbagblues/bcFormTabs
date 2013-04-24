@@ -16,7 +16,17 @@ class HistorialClinico_IndexController extends Weezer_Controller_Base
     }
     
     public function addidAction(){
+    	
+    	$params = array('labelSubmit' => 'Siguiente');
     	$this->createForm('add','Pacientes_Model_Identificacion',$params);    	
+    }
+    
+    public function addpadAction(){
+    	$this->createForm('add','Pacientes_Model_Padecimiento');
+    }
+    
+    public function addahfAction(){
+    	//pendiente
     }
 	
 

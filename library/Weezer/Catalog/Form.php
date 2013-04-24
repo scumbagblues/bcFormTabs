@@ -15,6 +15,7 @@ class Weezer_Catalog_Form extends Weezer_Catalog_Form_Abstract{
 	protected $_field_attribs;
 	protected $_decorators_default 	= array('Composite');
 	protected $_filters_default 		= array('StringTrim','StripTags');
+	protected $_label_submit;
 	
 	
 	
@@ -160,7 +161,7 @@ class Weezer_Catalog_Form extends Weezer_Catalog_Form_Abstract{
     			}
     		}
     		//FIXME Agregar etiqueta de "guardar" en catalogs/config.ini
-    		$this->addElement ( 'submit', 'Guardar', array ('class' => 'btn btn-primary btn-large', 'decorators' => array ('Submit' ) ) );
+    		$this->addElement ( 'submit', $this->_label_submit, array ('class' => 'btn btn-primary btn-large', 'decorators' => array ('Submit' ) ) );
 		}
 		//$this->addDisplayGroup($config_table->show_fields, 'form_fields');
 		
@@ -284,6 +285,12 @@ class Weezer_Catalog_Form extends Weezer_Catalog_Form_Abstract{
 				if (array_key_exists('field_attribs', $attribs)){
 					$form_field_attribs = $attribs['field_attribs'];
 				}
+		    }
+		    
+		    if(isset($params['labelSubmit'])){
+		    	$this->_label_submit = $params['labelSubmit'];
+		    }else{
+		    	$this->_label_submit = 'Guardar';
 		    }
 			//die;
 			$this->_fields_decorators 	= $form_decorators;
