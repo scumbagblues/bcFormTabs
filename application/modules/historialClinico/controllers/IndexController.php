@@ -1,6 +1,6 @@
 <?php
 
-class HistorialClinico_IndexController extends Zend_Controller_Action
+class HistorialClinico_IndexController extends Weezer_Controller_Base
 {
 
     public function init()
@@ -13,7 +13,11 @@ class HistorialClinico_IndexController extends Zend_Controller_Action
         // action body
         
     }
-
+    
+    public function addAction(){
+    	
+    }
+	
 
 }
 
