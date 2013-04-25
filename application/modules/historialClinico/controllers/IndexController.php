@@ -93,10 +93,12 @@ class HistorialClinico_IndexController extends Weezer_Controller_Base
     		$info_session = new Zend_Session_Namespace($info);
     		$info_paciente[$info] = $info_session->info;
     	}
-    	var_dump($info_paciente);
+    	//var_dump($info_paciente);
     	$this->view->info_paciente = $info_paciente;
+    	
+    	//TODO validar que si viene por POST guardar los datos
+    	//cambiar las etiquetas de campos de bd por etiquetas legibles
     }
-	
-
+   
 }
 

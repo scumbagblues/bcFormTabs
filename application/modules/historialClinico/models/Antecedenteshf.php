@@ -7,7 +7,7 @@ class HistorialClinico_Model_Antecedenteshf extends Weezer_Model_Base
     public $_table_prefix = 'ahf';
     
 	public function addElements($data){
-		$antecedentes_hfm = new Zend_Session_Namespace('antencedentes_heredofam');
+		$antecedentes_hfm = new Zend_Session_Namespace('antecedentes_heredofam');
 		$antecedentes_hfm->info = $data;     	
 	}
 

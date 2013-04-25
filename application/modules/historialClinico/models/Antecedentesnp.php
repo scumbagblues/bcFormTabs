@@ -7,7 +7,7 @@ class HistorialClinico_Model_Antecedentesnp extends Weezer_Model_Base
     public $_table_prefix = 'anp';
     
 	public function addElements($data){
-		$antecedentes_np= new Zend_Session_Namespace('antencedentes_nopatologicos');
+		$antecedentes_np= new Zend_Session_Namespace('antecedentes_nopatologicos');
 		$antecedentes_np->info = $data;     	
 	}
 

@@ -7,7 +7,7 @@ class HistorialClinico_Model_Antecedentespat extends Weezer_Model_Base
     public $_table_prefix = 'apa';
     
 	public function addElements($data){
-		$antecedentes_pat= new Zend_Session_Namespace('antencedentes_patologicos');
+		$antecedentes_pat= new Zend_Session_Namespace('antecedentes_patologicos');
 		$antecedentes_pat->info = $data;   
 	}
 
