@@ -19,42 +19,42 @@ class HistorialClinico_IndexController extends Weezer_Controller_Base
 		$params = array('labelSubmit' => 'Siguiente',
     					 'redirect' => array('module' => 'historialClinico'
     										 			,'controller' => 'index'
-    										 			,'action' => 'addpad'));
+    										 			,'action' => 'addpadecimiento'));
     										 			
     	$this->createForm('add','Pacientes_Model_Identificacion',$params); 
     	$this->_forward('catalogform','index','default');   	
     }
     
-    public function addpadAction(){
+    public function addpadecimientoAction(){
     	$params = array('labelSubmit' => 'Siguiente',
     					 'redirect' => array('module' => 'historialClinico'
     										 			,'controller' => 'index'
-    										 			,'action' => 'addahf'));
+    										 			,'action' => 'addaheredofam'));
     										 			
     	$this->createForm('add','Pacientes_Model_Padecimiento',$params);
     	$this->_forward('catalogform','index','default');
     }
     
-    public function addahfAction(){
+    public function addaheredofamAction(){
     	$params = array('labelSubmit' => 'Siguiente',
     					 'redirect' => array('module' => 'historialClinico'
     										 			,'controller' => 'index'
-    										 			,'action' => 'addanp'));
+    										 			,'action' => 'addanopatologicos'));
     	$this->createForm('add','HistorialClinico_Model_Antecedenteshf',$params);
     	$this->_forward('catalogform','index','default');
     }
     
-    public function addanpAction(){
+    public function addanopatologicosAction(){
     	
     	$params = array('labelSubmit' => 'Siguiente',
     					 'redirect' => array('module' => 'historialClinico'
     										 			,'controller' => 'index'
-    										 			,'action' => 'addapa'));
+    										 			,'action' => 'addapatologicos'));
     	$this->createForm('add','HistorialClinico_Model_Antecedentesnp',$params);
     	$this->_forward('catalogform','index','default');
     }
     
-    public function addapaAction(){
+    public function addapatologicosAction(){
     	
     	$params = array('labelSubmit' => 'Siguiente',
     					 'redirect' => array('module' => 'historialClinico'
@@ -85,19 +85,75 @@ class HistorialClinico_IndexController extends Weezer_Controller_Base
     
     public function resumeAction(){
     	
-    	$session_data = array('paciente','paciente_identificacion','paciente_padecimiento','antencedentes_heredofam','antencedentes_nopatologicos'
-    						  ,'antencedentes_patologicos','exploracion_fisica','pacientes_extras');
+    	$session_data = array('paciente','paciente_identificacion','paciente_padecimiento','antecedentes_heredofam','antecedentes_nopatologicos'
+    						  ,'antecedentes_patologicos','exploracion_fisica','paciente_extras');
     	$info_paciente = array();
     	
     	foreach ($session_data as $info){
     		$info_session = new Zend_Session_Namespace($info);
     		$info_paciente[$info] = $info_session->info;
     	}
-    	//var_dump($info_paciente);
-    	$this->view->info_paciente = $info_paciente;
+			
+    	$fields_to_show = $this->_getLabelsAndValues($info_paciente);
+    	//var_dump($fields_to_show);
     	
-    	//TODO validar que si viene por POST guardar los datos
-    	//cambiar las etiquetas de campos de bd por etiquetas legibles
+    	$this->view->info_paciente = $fields_to_show;
+    	
+    	//Si se envio la forma
+    	if ($this->getRequest()->isPost()){
+    		$paciente_model = new Pacientes_Model_Pacientes();
+    		$paciente_model->insertAllDataPaciente($info_paciente);
+    	}
+    }
+    
+    /**
+     * 
+     * Metodo para obtener las etiquetas de los campos generados en el 'wizard'
+     * @param array $info_paciente
+     * @param array $tables
+     */
+    protected function _getLabelsAndValues($info_paciente){
+    		
+    		$fields_labels = array();
+    		foreach ($info_paciente as $table => $fields){
+    			$config_table = Weezer_Catalog_Form_Abstract::getCatalogConfig($table);
+    			if (!is_null($fields)){
+    				foreach ($fields as $key => $value){
+	    				if (is_object($config_table->labels)){
+	    					$label_array = $config_table->labels->toArray();
+	 						if (array_key_exists($key, $label_array)){
+	 							$label = $label_array[$key];
+	 							if ($table == 'paciente'){
+	 								if ($key == 'pac_idestado' && !is_null($value)){
+	 									$est_cd_array = $this->_getEstadoAndCiudadNombre($fields['pac_idciudad']);
+	 									$fields_labels[$table][$label] = $est_cd_array['estado'];
+	 								}
+	 								else if ($key == 'pac_idciudad' && !is_null($value)){
+	 									$est_cd_array = $this->_getEstadoAndCiudadNombre($fields['pac_idciudad']);
+	 									$fields_labels[$table][$label] = $est_cd_array['ciudad'];
+	 								}
+	 								else{
+	 									$fields_labels[$table][$label] = $value;
+	 								}
+	 							}else{
+	 								
+	 								$fields_labels[$table][$label] = $value;
+	 							}
+	 							
+	 						}
+	    				}
+    				}		
+    			}				
+    		}
+    	
+    	return $fields_labels;
+    }
+    
+    protected function _getEstadoAndCiudadNombre($id_ciudad){
+    	$paciente_model = new Pacientes_Model_Pacientes();
+    	$est_cd_array 	= $paciente_model->getEstadoCiudad($id_ciudad);
+    	
+    	return $est_cd_array;
     }
    
 }

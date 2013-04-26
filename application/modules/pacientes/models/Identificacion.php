@@ -7,16 +7,12 @@ class Pacientes_Model_Identificacion extends Weezer_Model_Base{
 	
 	
 	public function addElements($data){
-		//$datos_paciente = new Zend_Session_Namespace('paciente_data');
+		$paciente_data 	= new Zend_Session_Namespace('paciente');
+		$paciente_id 	= $paciente_data->info;	
 		$paciente_identificacion = new Zend_Session_Namespace('paciente_identificacion');
+		$data 			= array_merge($data,array('pid_pacid' => $paciente_id['id'])); 
 		$paciente_identificacion->info = $data;
-		
-		/*
-		$paciente_info = array('paciente' => $datos_paciente->info
-							   ,'identificacion' => $paciente_identificacion->info);*/
-		
-     	
-     	
+
 	}
 	
 }

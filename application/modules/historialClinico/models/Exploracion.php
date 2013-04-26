@@ -7,7 +7,10 @@ class HistorialClinico_Model_Exploracion extends Weezer_Model_Base
     public $_table_prefix = 'exp';
     
 	public function addElements($data){
-		$exploracion		= new Zend_Session_Namespace('exploracion_fisica');
+		$paciente_data 	= new Zend_Session_Namespace('paciente');
+		$paciente_id 	= $paciente_data->info;	
+		$exploracion	= new Zend_Session_Namespace('exploracion_fisica');
+		$data 			= array_merge($data,array('exp_pacid' => $paciente_id['id'])); 
 		$exploracion->info 	= $data;     	
 	}
 

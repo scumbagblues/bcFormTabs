@@ -4,9 +4,9 @@ $identificaciones 	= $this->info_paciente['paciente_identificacion'];
 $padecimientos 		= $this->info_paciente['paciente_padecimiento'];
 $a_heredofam   		= $this->info_paciente['antecedentes_heredofam'];
 $a_nopatologicos	= $this->info_paciente['antecedentes_nopatologicos'];
-$a_patologicos		= $this->info_paciente['antecedentes_patologiocos'];
+$a_patologicos		= $this->info_paciente['antecedentes_patologicos'];
 $exp_fisica			= $this->info_paciente['exploracion_fisica'];
-$datos_extra		= $this->info_paciente['pacientes_extras'];
+$datos_extra		= $this->info_paciente['paciente_extras'];
 
 ?>
 
@@ -16,52 +16,68 @@ $datos_extra		= $this->info_paciente['pacientes_extras'];
 	<div class='row-fluid'>
 		<div class='span6'>
 			<div class='table-header'><h4>Paciente</h4></div>
-			<table class='offset3 table-striped table-bordered table-hover'>
+			<?php 
+				if (!is_null($pacientes)){
+			?>
+			<table class='table-width table-striped table-bordered table-hover'>
 				<?php foreach ($pacientes as $label => $value){?>
 					<tr>
-						<td><?php echo $label;?></td>
+						<td><strong><?php echo $label;?></strong></td>
+						<td><?php echo utf8_encode($value);?></td>
+					</tr>
+				<?php }?>
+			</table>
+			<?php }?>
+		</div>
+		<div class='span6'>
+			<div class='table-header'><h4>Ficha de identificación</h4></div>
+			<?php 
+				if (!is_null($identificaciones)){
+			?>
+			<table class='table-width table-striped table-bordered table-hover'>
+				<?php foreach ($identificaciones as $label => $value){?>
+					<tr>
+						<td><strong><?php echo $label;?></strong></td>
 						<td><?php echo $value;?></td>
 					</tr>
 				<?php }?>
 			</table>
-		</div>
-		<div class='span6'>
-			<div class='table-header'><h4>Ficha de identificación</h4></div>
-			<table class='offset3 table-striped table-bordered table-hover'>
-				<?php foreach ($identificaciones as $label => $value){?>
-					<tr>
-						<td><?php echo $label;?></td>
-						<td><?php echo $value;?></td>
-					</tr>
-				<?php }?>
-			</table>	
+			<?php }?>	
 		</div>
 	</div>
 	<br />
 	<div class='row-fluid'>
 		<div class='span6'>
 			<div class='table-header'><h4>Motivo de consulta</h4></div>
-			<table class='offset3 table-striped table-bordered table-hover'>
+			<?php 
+				if (!is_null($padecimientos)){
+			?>
+			<table class='table-width table-striped table-bordered table-hover'>
 				<?php foreach ($padecimientos as $label => $value){?>
 					<tr>
-						<td><?php echo $label;?></td>
+						<td><strong><?php echo $label;?></strong></td>
 						<td><?php echo $value;?></td>
 					</tr>
 				<?php }?>
 			</table>
+			<?php }?>
 		</div>
 		<div class='span6'>
 			<div class='table-header'>
 				<h4>Antecendentes Heredo-Familiares</h4>
 			</div>
-			<table class='offset3 table-striped table-bordered table-hover'>
+			<?php 
+				if (!is_null($a_heredofam)){
+			?>
+			<table class='table-width table-striped table-bordered table-hover'>
 				<?php foreach ($a_heredofam as $label => $value){?>
 					<tr>
-						<td><?php echo $label;?></td>
+						<td><strong><?php echo $label;?></strong></td>
 						<td><?php echo $value;?></td>
 					</tr>
 				<?php }?>
 			</table>
+			<?php }?>
 		</div>
 	</div>
 	<br />
@@ -70,27 +86,35 @@ $datos_extra		= $this->info_paciente['pacientes_extras'];
 			<div class='table-header'>
 				<h4>Antecendentes No Patologicos</h4>
 			</div>
-			<table class='offset3 table-striped table-bordered table-hover'>
+			<?php 
+				if (!is_null($a_nopatologicos)){
+			?>
+			<table class='table-width table-striped table-bordered table-hover'>
 				<?php foreach ($a_nopatologicos as $label => $value){?>
 					<tr>
-						<td><?php echo $label;?></td>
+						<td><strong><?php echo $label;?></strong></td>
 						<td><?php echo $value;?></td>
 					</tr>
 				<?php }?>
-			</table>	
+			</table>
+			<?php }?>	
 		</div>
 		<div class='span6'>
 			<div class='table-header'>
 				<h4>Antecendentes Patologicos</h4>
 			</div>	
-			<table class='offset3 table-striped table-bordered table-hover'>
+			<?php 
+				if (!is_null($a_patologicos)){
+			?>
+			<table class='table-width table-striped table-bordered table-hover'>
 				<?php foreach ($a_patologicos as $label => $value){?>
 					<tr>
-						<td><?php echo $label;?></td>
+						<td><strong><?php echo $label;?></strong></td>
 						<td><?php echo $value;?></td>
 					</tr>
 				<?php }?>
 			</table>
+			<?php }?>
 		</div>
 	</div>
 	<br />
@@ -99,27 +123,35 @@ $datos_extra		= $this->info_paciente['pacientes_extras'];
 			<div class='table-header'>
 				<h4>Exploración física</h4>
 			</div>	
-			<table class='offset3 table-striped table-bordered table-hover'>
+			<?php 
+				if (!is_null($exp_fisica)){
+			?>
+			<table class='table-width table-striped table-bordered table-hover'>
 				<?php foreach ($exp_fisica as $label => $value){?>
 					<tr>
-						<td><?php echo $label;?></td>
+						<td><strong><?php echo $label;?></strong></td>
 						<td><?php echo $value;?></td>
 					</tr>
 				<?php }?>
 			</table>
+			<?php }?>
 		</div>
 		<div class='span6'>
 			<div class='table-header'>
 				<h4>Otros</h4>
 			</div>	
-			<table class='offset3 table-striped table-bordered table-hover'>
+			<?php 
+				if (!is_null($datos_extra)){
+			?>
+			<table class='table-width table-striped table-bordered table-hover'>
 				<?php foreach ($datos_extra as $label => $value){?>
 					<tr>
-						<td><?php echo $label;?></td>
+						<td><strong><?php echo $label;?></strong></td>
 						<td><?php echo $value;?></td>
 					</tr>
 				<?php }?>
 			</table>
+			<?php }?>
 		</div>
 	</div>
 </div>

@@ -6,6 +6,7 @@ class Weezer_Catalog_Form extends Weezer_Catalog_Form_Abstract{
 	const TEXT_CLASS	= 'input-medium';
 	const INT_CLASS 	= 'input-small';
 	const ENUM_CLASS    = 'span2';
+	const TEXTAREA_CLASS = 'span5';
 	
 	protected $_max_lenght;
 	protected $_table_form_name;
@@ -188,7 +189,7 @@ class Weezer_Catalog_Form extends Weezer_Catalog_Form_Abstract{
 		//arreglo llave=valor
 		foreach($return_type as $valor)
 		{
-		    $resultado[$valor] = utf8_encode($valor);
+		    $resultado[utf8_encode($valor)] = utf8_encode($valor);
 		}
 		
 		return $resultado;
@@ -222,7 +223,7 @@ class Weezer_Catalog_Form extends Weezer_Catalog_Form_Abstract{
 		}else{
 			$field_type_switch = $field_type;
 		}
-		
+
 		switch ($field_type_switch){
 			case 'int':
 			case 'float':
@@ -244,8 +245,14 @@ class Weezer_Catalog_Form extends Weezer_Catalog_Form_Abstract{
 			break;
 			case 'text':
 				$element->html_type = 'textarea';
-				$element->class = self::TEXT_CLASS;
+				$element->class = self::TEXTAREA_CLASS;
+				$this->_max_lenght = '';
 			break;
+			case 'datetime':
+				$element->html_type = 'text';
+				$element->class = self::TEXT_CLASS;
+				$this->_max_lenght = '10';
+			break;	
 			default: $element->html_type = 'text';
 					 $element->class = self::TEXT_CLASS;
 			break;

@@ -7,7 +7,10 @@ class HistorialClinico_Model_Extras extends Weezer_Model_Base
     public $_table_prefix = 'pex';
     
 	public function addElements($data){
-		$extras			= new Zend_Session_Namespace('pacientes_extras');
+		$paciente_data 	= new Zend_Session_Namespace('paciente');
+		$paciente_id 	= $paciente_data->info;	
+		$extras			= new Zend_Session_Namespace('paciente_extras');
+		$data 			= array_merge($data,array('pex_pacid' => $paciente_id['id'])); 
 		$extras->info 	= $data;     	
 	}
 	

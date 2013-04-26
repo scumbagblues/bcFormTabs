@@ -64,7 +64,12 @@ protected $_class_label = 'control-label';
 				$html_element = $element->getView()->$helper( $element->getName (), $element->getValue (), $element->field_attribs );
 				break;
 			case 'formTextarea':
-				$element->field_attribs = array ('rows' => '10' );
+				if (!empty($element->field_attribs)){
+					$element->field_attribs = array_merge($element->field_attribs,array ('rows' => '10' ));
+				}else{
+					$element->field_attribs = array ('rows' => '10' );
+				}
+				
 				$html_element = $element->getView()->$helper( $element->getName (), $element->getValue (), $element->field_attribs );
 			break;
 			case 'formSelect':
