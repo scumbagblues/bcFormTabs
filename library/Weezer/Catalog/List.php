@@ -11,6 +11,7 @@ class Weezer_Catalog_List{
 	protected $_view;
 	protected $_pagination;
 	protected $_query;
+	protected $_manual_actions;
 	
 	
 	public function __construct($table = null,$view = null,$options = NULL){
@@ -24,6 +25,10 @@ class Weezer_Catalog_List{
 		if (isset($options['query'])) {
 			$this->_query = $options['query'];
 		}
+		
+		if (isset($options['actions'])) {
+			$this->_manual_actions = $options['actions'];
+		}
 	}
 	
 	/**
@@ -36,7 +41,12 @@ class Weezer_Catalog_List{
 		$catalog_config 	= Weezer_Catalog_Form_Abstract::getCatalogConfig($table_name->name);
 		$labels 			= $catalog_config->labels->toArray();
 		$list_header_fields = $catalog_config->show_list_fields;
-		$actions			= $catalog_config->actions;
+		if (!is_null($this->_manual_actions)){
+			$actions 	= $this->_manual_actions;
+		}else{
+			$actions	= $catalog_config->actions;
+		}
+		
 		if (is_array($actions)){
 			if (array_key_exists('add', $actions)){
 				$url_action = $this->getUrlAction();
@@ -82,14 +92,15 @@ class Weezer_Catalog_List{
 	
 	/**
 	 * 
-	 * M�todo para obtener las cabeceras del listado
+	 * Metodo para obtener las cabeceras del listado
 	 * @param array $labels
 	 * @param string $list_show_fields
 	 */
 	protected function _getHeaders($labels,$list_show_fields,$actions = NULL){
 		$headers = array();
 		if (!is_null($actions)){
-			if (array_key_exists('edit', $actions) || array_key_exists('delete', $actions)){
+			if (array_key_exists('edit', $actions) || array_key_exists('delete', $actions)
+				|| array_key_exists('radio', $actions)){
 				$labels = array_merge($labels,array('actions' => ''));//Se agrega el <th> de las acciones
 			}
 		}
@@ -140,7 +151,7 @@ class Weezer_Catalog_List{
 	}
 	
 	/**
-	 * M�todo para procesar las acciones enviadas y generar su html correspondiente
+	 * Metodo para procesar las acciones enviadas y generar su html correspondiente
 	 * para las acciones edit & delete
 	 */
 	
@@ -152,14 +163,19 @@ class Weezer_Catalog_List{
 		$html_actions = '<div class="btn-toolbar">
   							<div class="btn-group">';
 		$row_id = $data[$table_prefix->prefix . '_id'];
-		
+		//var_dump($actions);
 		if ($actions['edit']){
-			//HTML de edit
+			//HTML edit
 			$html_actions .= "<a title='Editar' class='btn btn-primary' href='{$url_action}/edit/id/{$row_id}'><i class='icon-pencil icon-white'></i></a>";
 		}
 		if ($actions['delete']){
-			//HTML de delete
+			//HTML delete
 			$html_actions .= "<a title='Eliminar' class='btn btn-primary' href='javascript: weezer.deleteaction(\"{$url_action}/delete/id/{$row_id}\")'><i class='icon-trash icon-white'></i></a>";
+		}
+		//HTML radio
+		
+		if($actions['radio']){
+			//TODO hacer el html del radio, si se complica con zend, mejor a mano
 		}
 	
 		$html_actions .= "</div></div>";

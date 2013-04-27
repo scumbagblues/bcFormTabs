@@ -12,7 +12,10 @@ class HistorialClinico_IndexController extends Weezer_Controller_Base
     public function indexAction()
     {
         // action body
-        
+      $options = array('actions' => array('radio' => 'Seleccionar'));
+    	
+      $this->createList('Pacientes_Model_Pacientes',$options);
+      	
     }
     
     public function addidAction(){
@@ -105,6 +108,15 @@ class HistorialClinico_IndexController extends Weezer_Controller_Base
     		$paciente_model->insertAllDataPaciente($info_paciente);
     	}
     }
+    
+    /*
+    public function mostrarpacienteAction(){
+    	$paciente_model = new Pacientes_Model_Pacientes();
+    	$pacientes_rows = $paciente_model->fetchAll("pac_activo = '1'")->toArray();
+    	
+    	$pacientes = $pacientes_rows;
+    	
+    }*/
     
     /**
      * 
