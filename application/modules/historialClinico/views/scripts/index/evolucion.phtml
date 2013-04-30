@@ -1,0 +1,40 @@
+<div class='box_form'>
+	<h4>Datos del paciente</h4>
+	<p><strong>Nombre:</strong>
+		<?php echo $this->paciente_data['pac_nombre'] . ' ' . $this->paciente_data['pac_apellidoP'] . ' ' . $this->paciente_data['pac_apellidoM']?>
+	</p>
+	<p><strong>Edad:</strong> <?php echo $this->paciente_data['pac_edad']?></p>
+	<p><strong>Domicilio:</strong> <?php echo $this->paciente_data['pac_domicilio']?></p>
+	<?php 
+		if (!is_null($this->pac_evolucion)){
+	?>
+	<table class='table table-bordered'>
+		<thead>
+			<tr>
+				<th>Fecha</th>
+				<th>Datos clinicos y diagnosticos</th>
+				<th>Tratamiento</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php foreach ($this->pac_evolucion as $row => $value){?>
+			<tr>
+				<td>
+					<?php echo $value['evo_fecha'];?>
+				</td>
+				<td>
+					<?php echo $value['evo_datos'];?>
+				</td>
+				<td>
+					<?php echo $value['evo_tratamiento'];?>
+				</td>
+			</tr>
+			<?php }?>
+		</tbody>
+	</table>
+	<?php 
+		}
+	?>
+	
+</div>
+<?php echo $this->form?>

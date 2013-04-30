@@ -1,6 +1,6 @@
 /*
 SQLyog Enterprise - MySQL GUI v8.13 
-MySQL - 5.5.29-0ubuntu0.12.04.2 : Database - bluecare_chetumal
+MySQL - 5.5.31-0ubuntu0.12.04.1 : Database - bluecare_chetumal
 *********************************************************************
 */
 
@@ -52,9 +52,11 @@ CREATE TABLE `antecedentes_heredofam` (
   PRIMARY KEY (`ahf_id`),
   KEY `fk_antecedentes_heredofam_paciente1` (`ahf_pacid`),
   CONSTRAINT `fk_antecedentes_heredofam_paciente1` FOREIGN KEY (`ahf_pacid`) REFERENCES `paciente` (`pac_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 /*Data for the table `antecedentes_heredofam` */
+
+insert  into `antecedentes_heredofam`(`ahf_id`,`ahf_materno`,`ahf_paterno`,`ahf_pacid`) values (3,'no tiene','no tiene',27),(4,'no tiene','no tiene',27),(5,'no tiene','no tiene',27);
 
 /*Table structure for table `antecedentes_nopatologicos` */
 
@@ -62,33 +64,44 @@ DROP TABLE IF EXISTS `antecedentes_nopatologicos`;
 
 CREATE TABLE `antecedentes_nopatologicos` (
   `anp_id` int(11) NOT NULL AUTO_INCREMENT,
+  `anp_menarca` varchar(5) DEFAULT NULL,
+  `anp_ritmo` varchar(5) DEFAULT NULL,
+  `anp_edadiniciosexual` datetime DEFAULT NULL,
+  `anp_fechaultimamest` datetime DEFAULT NULL,
+  `anp_fechaultimopapanico` datetime DEFAULT NULL,
+  `anp_examenmamas` varchar(5) DEFAULT NULL,
+  `anp_multiplepareja` enum('Si','No') DEFAULT NULL,
+  `anp_fechausoanticon` datetime DEFAULT NULL,
+  `anp_toxemia` varchar(35) DEFAULT NULL,
+  `anp_legradouterino` varchar(30) DEFAULT NULL,
+  `anp_dieta` enum('Buena','Regular','Mala') DEFAULT NULL,
+  `anp_tabaco` enum('Buena','Regular','Mala') DEFAULT NULL,
+  `anp_alcohol` enum('Buena','Regular','Mala') DEFAULT NULL,
+  `anp_vivienda` enum('Buena','Regular','Mala') DEFAULT NULL,
+  `anp_servicio` enum('Buena','Regular','Mala') DEFAULT NULL,
+  `anp_fauna` enum('Buena','Regular','Mala') DEFAULT NULL,
+  `anp_promiscuidad` enum('Si','No') DEFAULT NULL,
+  `anp_hacinamiento` enum('Si','No') DEFAULT NULL,
+  `anp_biologico` varchar(45) DEFAULT NULL,
+  `anp_sabin` varchar(3) DEFAULT NULL,
+  `anp_dpt` varchar(3) DEFAULT NULL,
+  `anp_bcg` varchar(3) DEFAULT NULL,
+  `anp_dobleviral` varchar(3) DEFAULT NULL,
+  `anp_tviral` varchar(3) DEFAULT NULL,
+  `anp_antihepatitisb` varchar(3) DEFAULT NULL,
+  `anp_pentavalente` varchar(3) DEFAULT NULL,
+  `anp_influenza` varchar(3) DEFAULT NULL,
+  `anp_antineumocos` varchar(3) DEFAULT NULL,
+  `anp_antirabicah` varchar(3) DEFAULT NULL,
   `anp_pacid` int(11) NOT NULL,
-  `anp_sarampion` enum('Si','No') DEFAULT NULL,
-  `anp_rubeola` enum('Si','No') DEFAULT NULL,
-  `anp_tosferina` enum('Si','No') DEFAULT NULL,
-  `anp_varicela` enum('Si','No') DEFAULT NULL,
-  `anp_escarlatina` enum('Si','No') DEFAULT NULL,
-  `anp_amigdalitis` enum('Si','No') DEFAULT NULL,
-  `anp_hepatitis` enum('Si','No') DEFAULT NULL,
-  `anp_convulsiones` enum('Si','No') DEFAULT NULL,
-  `anp_urosepsis` enum('Si','No') DEFAULT NULL,
-  `anp_traumatismo` enum('Si','No') DEFAULT NULL,
-  `anp_cirugia` enum('Si','No') DEFAULT NULL,
-  `anp_ingresohospital` enum('Si','No') DEFAULT NULL,
-  `anp_otros` enum('Si','No') DEFAULT NULL,
-  `anp_sonrio` varchar(5) DEFAULT NULL,
-  `anp_sostuvocabeza` varchar(5) DEFAULT NULL,
-  `anp_sento` varchar(5) DEFAULT NULL,
-  `anp_gateo` varchar(5) DEFAULT NULL,
-  `anp_camino` varchar(5) DEFAULT NULL,
-  `anp_hablo` varchar(5) DEFAULT NULL,
-  `anp_controlesfinteres` varchar(5) DEFAULT NULL,
   PRIMARY KEY (`anp_id`),
-  KEY `fk_antecedentes_nopatologicos_paciente1` (`anp_pacid`),
-  CONSTRAINT `fk_antecedentes_nopatologicos_paciente1` FOREIGN KEY (`anp_pacid`) REFERENCES `paciente` (`pac_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY `fk_antecedentes_patologicos_paciente1_idx` (`anp_pacid`),
+  CONSTRAINT `fk_antecedentes_patologicos_paciente1` FOREIGN KEY (`anp_pacid`) REFERENCES `paciente` (`pac_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 /*Data for the table `antecedentes_nopatologicos` */
+
+insert  into `antecedentes_nopatologicos`(`anp_id`,`anp_menarca`,`anp_ritmo`,`anp_edadiniciosexual`,`anp_fechaultimamest`,`anp_fechaultimopapanico`,`anp_examenmamas`,`anp_multiplepareja`,`anp_fechausoanticon`,`anp_toxemia`,`anp_legradouterino`,`anp_dieta`,`anp_tabaco`,`anp_alcohol`,`anp_vivienda`,`anp_servicio`,`anp_fauna`,`anp_promiscuidad`,`anp_hacinamiento`,`anp_biologico`,`anp_sabin`,`anp_dpt`,`anp_bcg`,`anp_dobleviral`,`anp_tviral`,`anp_antihepatitisb`,`anp_pentavalente`,`anp_influenza`,`anp_antineumocos`,`anp_antirabicah`,`anp_pacid`) values (3,'si','si','2012-12-12 00:00:00',NULL,'2012-12-12 00:00:00','si','Si','2012-12-12 00:00:00','si','si','Buena','Buena','Buena','Buena','Buena','Buena','Si','Si',NULL,'no','no','no','no','no',NULL,'no','no','no','no',27),(4,'si','si','2012-12-12 00:00:00',NULL,'2012-12-12 00:00:00','si','Si','2012-12-12 00:00:00','si','si','Buena','Buena','Buena','Buena','Buena','Buena','Si','Si',NULL,'no','no','no','no','no',NULL,'no','no','no','no',27),(5,'si','si','2012-12-12 00:00:00',NULL,'2012-12-12 00:00:00','si','Si','2012-12-12 00:00:00','si','si','Buena','Buena','Buena','Buena','Buena','Buena','Si','Si',NULL,'no','no','no','no','no',NULL,'no','no','no','no',27);
 
 /*Table structure for table `antecedentes_patologicos` */
 
@@ -96,42 +109,35 @@ DROP TABLE IF EXISTS `antecedentes_patologicos`;
 
 CREATE TABLE `antecedentes_patologicos` (
   `apa_id` int(11) NOT NULL AUTO_INCREMENT,
-  `apa_menarca` varchar(5) DEFAULT NULL,
-  `apa_ritmo` varchar(5) DEFAULT NULL,
-  `apa_edadiniciosexual` varchar(3) DEFAULT NULL,
-  `apa_fechaultimamest` datetime DEFAULT NULL,
-  `apa_fechaultimopapanico` datetime DEFAULT NULL,
-  `apa_examenmamas` varchar(5) DEFAULT NULL,
-  `apa_multiplepareja` enum('Si','No') DEFAULT NULL,
-  `apa_fechausoanticon` datetime DEFAULT NULL,
-  `apa_toxemia` varchar(35) DEFAULT NULL,
-  `apa_legradouterino` varchar(30) DEFAULT NULL,
-  `apa_dieta` enum('Buena','Regular','Mala') DEFAULT NULL,
-  `apa_tabaco` enum('Buena','Regular','Mala') DEFAULT NULL,
-  `apa_alcohol` enum('Buena','Regular','Mala') DEFAULT NULL,
-  `apa_vivienda` enum('Buena','Regular','Mala') DEFAULT NULL,
-  `apa_servicio` enum('Buena','Regular','Mala') DEFAULT NULL,
-  `apa_fauna` enum('Buena','Regular','Mala') DEFAULT NULL,
-  `apa_promiscuidad` enum('Si','No') DEFAULT NULL,
-  `apa_hacinamiento` enum('Si','No') DEFAULT NULL,
-  `apa_biologico` varchar(45) DEFAULT NULL,
-  `apa_sabin` varchar(3) DEFAULT NULL,
-  `apa_dpt` varchar(3) DEFAULT NULL,
-  `apa_bcg` varchar(3) DEFAULT NULL,
-  `apa_dobleviral` varchar(3) DEFAULT NULL,
-  `apa_tviral` varchar(3) DEFAULT NULL,
-  `apa_antihepatitisb` varchar(3) DEFAULT NULL,
-  `apa_pentavalente` varchar(3) DEFAULT NULL,
-  `apa_influenza` varchar(3) DEFAULT NULL,
-  `apa_antineumocos` varchar(3) DEFAULT NULL,
-  `apa_antirabicah` varchar(3) DEFAULT NULL,
   `apa_pacid` int(11) NOT NULL,
+  `apa_sarampion` enum('Si','No') DEFAULT NULL,
+  `apa_rubeola` enum('Si','No') DEFAULT NULL,
+  `apa_tosferina` enum('Si','No') DEFAULT NULL,
+  `apa_varicela` enum('Si','No') DEFAULT NULL,
+  `apa_escarlatina` enum('Si','No') DEFAULT NULL,
+  `apa_amigdalitis` enum('Si','No') DEFAULT NULL,
+  `apa_hepatitis` enum('Si','No') DEFAULT NULL,
+  `apa_convulsiones` enum('Si','No') DEFAULT NULL,
+  `apa_urosepsis` enum('Si','No') DEFAULT NULL,
+  `apa_traumatismo` enum('Si','No') DEFAULT NULL,
+  `apa_cirugia` enum('Si','No') DEFAULT NULL,
+  `apa_ingresohospital` enum('Si','No') DEFAULT NULL,
+  `apa_otros` enum('Si','No') DEFAULT NULL,
+  `apa_sonrio` varchar(5) DEFAULT NULL,
+  `apa_sostuvocabeza` varchar(5) DEFAULT NULL,
+  `apa_sento` varchar(5) DEFAULT NULL,
+  `apa_gateo` varchar(5) DEFAULT NULL,
+  `apa_camino` varchar(5) DEFAULT NULL,
+  `apa_hablo` varchar(5) DEFAULT NULL,
+  `apa_controlesfinteres` varchar(5) DEFAULT NULL,
   PRIMARY KEY (`apa_id`),
-  KEY `fk_antecedentes_patologicos_paciente1` (`apa_pacid`),
-  CONSTRAINT `fk_antecedentes_patologicos_paciente1` FOREIGN KEY (`apa_pacid`) REFERENCES `paciente` (`pac_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY `fk_antecedentes_nopatologicos_paciente1_idx` (`apa_pacid`),
+  CONSTRAINT `fk_antecedentes_nopatologicos_paciente1` FOREIGN KEY (`apa_pacid`) REFERENCES `paciente` (`pac_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 /*Data for the table `antecedentes_patologicos` */
+
+insert  into `antecedentes_patologicos`(`apa_id`,`apa_pacid`,`apa_sarampion`,`apa_rubeola`,`apa_tosferina`,`apa_varicela`,`apa_escarlatina`,`apa_amigdalitis`,`apa_hepatitis`,`apa_convulsiones`,`apa_urosepsis`,`apa_traumatismo`,`apa_cirugia`,`apa_ingresohospital`,`apa_otros`,`apa_sonrio`,`apa_sostuvocabeza`,`apa_sento`,`apa_gateo`,`apa_camino`,`apa_hablo`,`apa_controlesfinteres`) values (3,27,'Si','Si','Si','Si',NULL,'Si','Si','Si','Si','Si','Si','Si',NULL,'s','s','s','s','s','s','s'),(4,27,'Si','Si','Si','Si',NULL,'Si','Si','Si','Si','Si','Si','Si',NULL,'s','s','s','s','s','s','s'),(5,27,'Si','Si','Si','Si',NULL,'Si','Si','Si','Si','Si','Si','Si',NULL,'s','s','s','s','s','s','s');
 
 /*Table structure for table `ciudades` */
 
@@ -187,25 +193,28 @@ insert  into `estados`(`est_id`,`est_nombre`,`est_activo`) values (1,'Jalisco','
 DROP TABLE IF EXISTS `evolucion_medica`;
 
 CREATE TABLE `evolucion_medica` (
-  `evo_id` int(11) NOT NULL,
+  `evo_id` int(11) NOT NULL AUTO_INCREMENT,
   `evo_pacid` int(11) NOT NULL,
   `evo_fecha` datetime DEFAULT NULL,
-  `evolucion_medicacol` varchar(45) DEFAULT NULL,
   `evo_datos` varchar(100) DEFAULT NULL,
   `evo_tratamiento` varchar(45) DEFAULT NULL,
+  `evo_uid` int(11) DEFAULT NULL,
+  `evo_udt` datetime DEFAULT NULL,
   PRIMARY KEY (`evo_id`),
   KEY `fk_evolucion_medica_paciente1` (`evo_pacid`),
   CONSTRAINT `fk_evolucion_medica_paciente1` FOREIGN KEY (`evo_pacid`) REFERENCES `paciente` (`pac_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 /*Data for the table `evolucion_medica` */
+
+insert  into `evolucion_medica`(`evo_id`,`evo_pacid`,`evo_fecha`,`evo_datos`,`evo_tratamiento`,`evo_uid`,`evo_udt`) values (1,25,'2013-04-23 00:00:00','todo bien','solo vs VIH',1,'2013-04-30 17:49:04'),(2,25,'2013-04-02 00:00:00','todo bien','solo vs Gripa',1,'2013-04-30 17:52:07'),(3,25,'2013-04-30 00:00:00','todo bien','solo vs Tos',1,'2013-04-30 18:21:50');
 
 /*Table structure for table `exploracion_fisica` */
 
 DROP TABLE IF EXISTS `exploracion_fisica`;
 
 CREATE TABLE `exploracion_fisica` (
-  `exp_id` int(11) NOT NULL,
+  `exp_id` int(11) NOT NULL AUTO_INCREMENT,
   `exp_peso` varchar(3) DEFAULT NULL,
   `exp_talla` varchar(3) DEFAULT NULL,
   `exp_pulso` varchar(3) DEFAULT NULL,
@@ -231,9 +240,11 @@ CREATE TABLE `exploracion_fisica` (
   PRIMARY KEY (`exp_id`),
   KEY `fk_exploracion_fisica_paciente1` (`exp_pacid`),
   CONSTRAINT `fk_exploracion_fisica_paciente1` FOREIGN KEY (`exp_pacid`) REFERENCES `paciente` (`pac_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 /*Data for the table `exploracion_fisica` */
+
+insert  into `exploracion_fisica`(`exp_id`,`exp_peso`,`exp_talla`,`exp_pulso`,`exp_resp`,`exp_craneo`,`exp_cara`,`exp_ojos`,`exp_nariz`,`exp_bocafaringe`,`exp_cuello`,`exp_torax`,`exp_apresp`,`exp_apdig`,`exp_apcardio`,`exp_abdomen`,`exp_genitouri`,`exp_extremidades`,`exp_apmusc`,`exp_snc`,`exp_otros`,`exp_descripciones`,`exp_pacid`) values (1,'23','12','12','si','Normal','Normal','Normal','Normal','Normal','Normal','Normal','Normal','Normal','Normal','Normal','Normal','Normal',NULL,'Normal','Normal',NULL,27),(2,'23','12','12','si','Normal','Normal','Normal','Normal','Normal','Normal','Normal','Normal','Normal','Normal','Normal','Normal','Normal',NULL,'Normal','Normal',NULL,27),(3,'23','12','12','si','Normal','Normal','Normal','Normal','Normal','Normal','Normal','Normal','Normal','Normal','Normal','Normal','Normal',NULL,'Normal','Normal',NULL,27);
 
 /*Table structure for table `paciente` */
 
@@ -255,11 +266,11 @@ CREATE TABLE `paciente` (
   `pac_uid` int(11) DEFAULT NULL,
   `pac_udt` datetime DEFAULT NULL,
   PRIMARY KEY (`pac_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC;
 
 /*Data for the table `paciente` */
 
-insert  into `paciente`(`pac_id`,`pac_nombre`,`pac_apellidoP`,`pac_apellidoM`,`pac_domicilio`,`pac_edad`,`pac_idestado`,`pac_idciudad`,`pac_contacto`,`pac_parentesco`,`pac_casomedico`,`pac_activo`,`pac_uid`,`pac_udt`) values (1,'Ricardo','Cortes','Romo','Montes urales 1232','28',5,6,'Ricardo Cortes','Padre','No','1',1,'2013-04-22 11:23:30'),(2,'Jose','Cortes','Romo','Montes urales 1232','27',1,1,'Ricardo Cortes','Padre','Si','0',1,'2013-04-22 12:14:53'),(3,'John','Lennon','Winston','Abbey road','40',5,6,'Ricardo Cortes','Padre','No','1',1,'2013-04-22 17:08:51'),(4,'ringo','starkey','perez','Montes urales 1232','40',5,6,'Ricardo Cortes','Padre','Si','1',1,'2013-04-23 17:54:04'),(5,'Jose','starkey','Romo','Montes urales 1232','40',1,1,'Ricardo Cortes','Padre','No','1',1,'2013-04-23 18:01:59'),(6,'George','Harrison','Lopez','Abbey road','40',4,4,'Ricardo Cortes','Padre','No','1',1,'2013-04-23 18:02:27');
+insert  into `paciente`(`pac_id`,`pac_nombre`,`pac_apellidoP`,`pac_apellidoM`,`pac_domicilio`,`pac_edad`,`pac_idestado`,`pac_idciudad`,`pac_contacto`,`pac_parentesco`,`pac_casomedico`,`pac_activo`,`pac_uid`,`pac_udt`) values (25,'Ricardo','Cortes','Romo','Igualdad 877','40',5,6,'Ricardo Cortes','Padre','Si','1',1,'2013-04-25 18:28:31'),(26,'Ricardo','Cortes','Lopez','Montes urales 1232','40',5,6,'Ricardo Cortes','Padre','Si','1',1,'2013-04-25 18:32:11'),(27,'arnoldo','magaña','barboza','cidro 4476','25',4,3,'llamar con la sra petra ','vecina','No','1',1,'2013-04-26 18:36:41'),(28,'Juan','Velez','Sarfield','Montes urales 1232','40',1,2,'Ricardo Cortes','Padre','Si','1',1,'2013-04-30 13:54:57');
 
 /*Table structure for table `paciente_extras` */
 
@@ -276,9 +287,11 @@ CREATE TABLE `paciente_extras` (
   PRIMARY KEY (`pex_id`),
   KEY `fk_paciente_extras_paciente1` (`pex_pacid`),
   CONSTRAINT `fk_paciente_extras_paciente1` FOREIGN KEY (`pex_pacid`) REFERENCES `paciente` (`pac_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 /*Data for the table `paciente_extras` */
+
+insert  into `paciente_extras`(`pex_id`,`pex_impresion`,`pex_exsolicitados`,`pex_terapeutica`,`pex_referido`,`pex_urgencia`,`pex_pacid`) values (1,'si','si','si','Consulta externa','Si',27),(2,'si','si','si','Consulta externa','Si',27),(3,'si','si','si','Consulta externa','Si',27);
 
 /*Table structure for table `paciente_identificacion` */
 
@@ -292,15 +305,17 @@ CREATE TABLE `paciente_identificacion` (
   `pid_ocupacion` enum('Sin ocupación','Estudia','Trabaja','Labores de hogar','Desempleado','Jubilado') DEFAULT NULL,
   `pid_residencia` varchar(40) DEFAULT NULL,
   `pid_sexo` enum('H','M') DEFAULT NULL,
-  `pid_estadocivil` enum('Casado(a)','Soltero(a)','Madre/Padre soltero','Viudo(a)','Divoricado(a)','Unión libre','Separado') DEFAULT NULL,
+  `pid_estadocivil` enum('Casado/Casada','Soltero/Soltera','Madre/Padre soltero','Viudo/Viuda','Divoricado/Divorciada','Unión libre','Separado') DEFAULT NULL,
   `pid_perfil` text,
   `pid_pacid` int(11) NOT NULL,
   PRIMARY KEY (`pid_id`),
   KEY `fk_paciente_identificacion_paciente1` (`pid_pacid`),
   CONSTRAINT `fk_paciente_identificacion_paciente1` FOREIGN KEY (`pid_pacid`) REFERENCES `paciente` (`pac_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 /*Data for the table `paciente_identificacion` */
+
+insert  into `paciente_identificacion`(`pid_id`,`pid_interrogatorio`,`pid_ministerio`,`pid_fechanac`,`pid_ocupacion`,`pid_residencia`,`pid_sexo`,`pid_estadocivil`,`pid_perfil`,`pid_pacid`) values (6,'Si','Si','28/05/1987','Estudia','Guadalajara','H','Casado/Casada','Test Paciente existente',27),(7,'Si','Si','28/05/1987','Estudia','Guadalajara','H','Casado/Casada','Test Paciente existente',27),(8,'Si','Si','28/05/1987','Estudia','Guadalajara','H','Casado/Casada','Test Paciente existente',27);
 
 /*Table structure for table `paciente_padecimiento` */
 
@@ -315,9 +330,11 @@ CREATE TABLE `paciente_padecimiento` (
   PRIMARY KEY (`pad_id`),
   KEY `fk_paciente_padecimiento_paciente1` (`pad_pacid`),
   CONSTRAINT `fk_paciente_padecimiento_paciente1` FOREIGN KEY (`pad_pacid`) REFERENCES `paciente` (`pac_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 /*Data for the table `paciente_padecimiento` */
+
+insert  into `paciente_padecimiento`(`pad_id`,`pad_evolucion`,`pad_pacid`,`pad_signos`,`pad_sintomas`) values (3,'24 a 72 hrs',27,'buenos','buenos'),(4,'24 a 72 hrs',27,'buenos','buenos'),(5,'24 a 72 hrs',27,'buenos','buenos');
 
 /*Table structure for table `pacientes` */
 

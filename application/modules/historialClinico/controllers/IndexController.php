@@ -12,7 +12,8 @@ class HistorialClinico_IndexController extends Weezer_Controller_Base
     public function indexAction()
     {
         // action body
-      $html_actions = $this->_getHtmlForActions();  
+      $url_historial = '/historialClinico/index/addid';  
+      $html_actions = $this->_getHtmlForActions($url_historial);  
       $options = array('actions' => array('html' => $html_actions));
     	
       $this->createList('Pacientes_Model_Pacientes',$options);
@@ -90,6 +91,36 @@ class HistorialClinico_IndexController extends Weezer_Controller_Base
     										 			,'action' => 'resume'));
     	$this->createForm('add','HistorialClinico_Model_Extras',$params);
     	$this->_forward('catalogform','index','default');
+    }
+    
+    public function evolucionmedicaAction(){
+    	$url_evolucion_medica = '/historialClinico/index/evolucion'; 
+    	$html_actions = $this->_getHtmlForActions($url_evolucion_medica);  
+      	$options = array('actions' => array('html' => $html_actions));
+    	
+      	$this->createList('Pacientes_Model_Pacientes',$options);	
+    }
+    
+    public function evolucionAction(){
+    	
+    	$paciente_data = new Zend_Session_Namespace('paciente');
+    	$this->view->paciente_data = $paciente_data->info;
+    	$pac_id = $paciente_data->info['pac_id'];
+    	
+    	$evolucion_model = new HistorialClinico_Model_Evolucion();
+    	$evolucion_rows = $evolucion_model->fetchAll("evo_pacid = {$pac_id}");
+    	
+    	if (!empty($evolucion_rows)){
+    		$evolucion_data = $evolucion_rows->toArray();
+    	}
+ 
+    	$this->view->pac_evolucion = $evolucion_data;
+    	$params = array('attribs' => array('decorators' => array('evo_fecha' => 'Calendar')),
+    					'redirect' => array('module' => 'historialClinico'
+    										 			,'controller' => 'index'
+    										 			,'action' => 'evolucion')
+    					);
+    	$this->createForm('add', 'HistorialClinico_Model_Evolucion',$params);
     }
     
     public function resumeAction(){
@@ -176,15 +207,15 @@ class HistorialClinico_IndexController extends Weezer_Controller_Base
     	return $est_cd_array;
     }
     
-    protected function _getHtmlForActions(){
+    protected function _getHtmlForActions($url_redirect){
     	
-    	$html_paciente = "<button class='btn btn-primary' title='Seleccionar Paciente' onclick=\"javascript: bluecare.setSessionPacient(_ID_);\">
+    	$html_paciente = "<button class='btn btn-primary' title='Seleccionar Paciente' onclick=\"javascript: bluecare.setSessionPacient(_ID_,'$url_redirect');\">
     						<i class='icon-ok icon-white'></i>
     					  </button>";
-    	
+ 
     	return $html_paciente;
     	
     }
-   
+
 }
 

@@ -115,7 +115,7 @@ bluecare.completefieldspaciente = function(id_paciente){
 	        });
 }
 
-bluecare.setSessionPacient = function(id){
+bluecare.setSessionPacient = function(id,url_next){
 	$.ajax(
 	        {
 	            async: true,
@@ -129,7 +129,7 @@ bluecare.setSessionPacient = function(id){
 	            },
 	            success: function(data){
 	            	if(data){
-	            		location.href = bluecare.base_url + '/historialClinico/index/addid'
+	            		location.href = bluecare.base_url + url_next
 	            	}
 	            },
 	            error: function(requestData, strError, strTipoError){

@@ -70,7 +70,7 @@ implements Weezer_Form_Decorator_Interface{
 	}
 	
 	protected function removeDecoratorsPicker($element){
-		$decorators = array('Errors','Description','HtmlTag','Label');      
+		$decorators = array('Description','HtmlTag','Label');      
 		foreach ($decorators as $decorator){
          	$element->removeDecorator($decorator);
          }                 
