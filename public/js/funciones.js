@@ -115,3 +115,26 @@ bluecare.completefieldspaciente = function(id_paciente){
 	        });
 }
 
+bluecare.setSessionPacient = function(id){
+	$.ajax(
+	        {
+	            async: true,
+	            type: 'GET',
+	            url: bluecare.base_url + '/historialClinico/index/ajax',
+	            data: "id="+id,
+	            dataType: 'json',
+	           
+	            beforeSend: function(data){
+	            	
+	            },
+	            success: function(data){
+	            	if(data){
+	            		location.href = bluecare.base_url + '/historialClinico/index/addid'
+	            	}
+	            },
+	            error: function(requestData, strError, strTipoError){
+	               
+	            }
+	        });
+}
+

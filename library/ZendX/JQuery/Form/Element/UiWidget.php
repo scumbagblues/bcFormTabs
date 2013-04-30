@@ -113,9 +113,10 @@ class ZendX_JQuery_Form_Element_UiWidget extends Zend_Form_Element
      * @return void
      */
     public function loadDefaultDecorators()
-    {
+    {	
+
         if ($this->loadDefaultDecoratorsIsDisabled()) {
-            return;
+        	return;
         }
 
         $decorators = $this->getDecorators();

@@ -43,7 +43,7 @@ class Weezer_Model_Base extends Zend_Db_Table_Abstract{
 	
 	/**
 	 * 
-	 * M�todo para obtener un row de acuerdo a su clausula "where"
+	 * Metodo para obtener un row de acuerdo a su clausula "where"
 	 * @param unknown_type $where
 	 * @param unknown_type $order
 	 */
@@ -92,7 +92,7 @@ class Weezer_Model_Base extends Zend_Db_Table_Abstract{
 	  	//Si se inserto correctamente la info
 	  	//se devuelve y se adjunta su nuevo id
 	    if ($id){
-	    	$data = array_merge($data,array('id' => $id));
+	    	$data = array_merge($data,array("{$this->_table_prefix}_id" => $id));
 	    }
 	    
 	    return $data;

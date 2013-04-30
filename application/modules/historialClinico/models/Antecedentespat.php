@@ -10,7 +10,7 @@ class HistorialClinico_Model_Antecedentespat extends Weezer_Model_Base
 		$paciente_data = new Zend_Session_Namespace('paciente');
 		$paciente_id = $paciente_data->info;	
 		$antecedentes_pat= new Zend_Session_Namespace('antecedentes_patologicos');
-		$data = array_merge($data,array('apa_pacid' => $paciente_id['id'])); 
+		$data = array_merge($data,array('apa_pacid' => $paciente_id['pac_id'])); 
 		$antecedentes_pat->info = $data;   
 	}
 

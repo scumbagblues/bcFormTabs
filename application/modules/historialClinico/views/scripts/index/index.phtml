@@ -1,20 +1,22 @@
-<div class='row-fluid well'>
+<div class='box_form'>
 	<div class='span2 offset2'>
 	</div>
-	<div class='row-fluid span2'>
-		<div class="btn btn-large btn-primary">
-			<a href='<?php echo $this->baseUrl();?>/pacientes/index/add/hc/1'>
-				<span class='box_link'>Nuevo Paciente</span>
-			</a>
+	<div class='row-fluid'>
+		<div class='row-fluid span2'>
+			<div class="btn btn-large btn-primary">
+				<a href='<?php echo $this->baseUrl();?>/pacientes/index/add/hc/1'>
+					<span class='box_link'>Nuevo Paciente</span>
+				</a>
+			</div>
 		</div>
-	</div>
-	<div class='row-fluid span2'>
-		<div id='mostrar' class="btn btn-large btn-primary">
-			<span class='box_link'>Paciente existente</span>
+		<div class='row-fluid span3'>
+			<div id='mostrar' class="btn btn-large btn-primary">
+				<span class='box_link'>Paciente existente</span>
+			</div>
 		</div>
 	</div>
 </div>
-<div id='pacientes' class='row-fluid well' style='display: none;'>
+<div id='pacientes' class='box_form' style='display: none;'>
 	<?php echo $this->list; ?>
 </div>
 <script>

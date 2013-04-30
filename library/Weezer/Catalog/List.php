@@ -100,7 +100,7 @@ class Weezer_Catalog_List{
 		$headers = array();
 		if (!is_null($actions)){
 			if (array_key_exists('edit', $actions) || array_key_exists('delete', $actions)
-				|| array_key_exists('radio', $actions)){
+				|| array_key_exists('html', $actions)){
 				$labels = array_merge($labels,array('actions' => ''));//Se agrega el <th> de las acciones
 			}
 		}
@@ -115,7 +115,7 @@ class Weezer_Catalog_List{
 	
 	/**
 	 * 
-	 * M�todo para obtener el contenido del listado
+	 * Metodo para obtener el contenido del listado
 	 * @param string $table
 	 * @param string $show_list_fields
 	 */
@@ -175,7 +175,11 @@ class Weezer_Catalog_List{
 		//HTML radio
 		
 		if($actions['radio']){
-			//TODO hacer el html del radio, si se complica con zend, mejor a mano
+			//TODO hacer el html del radio
+		}
+		//Otro tipo de accion(es)
+		if ($actions['html']){
+			$html_actions .= str_replace('_ID_', $row_id, $actions['html']);
 		}
 	
 		$html_actions .= "</div></div>";

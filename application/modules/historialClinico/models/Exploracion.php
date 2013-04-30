@@ -10,7 +10,7 @@ class HistorialClinico_Model_Exploracion extends Weezer_Model_Base
 		$paciente_data 	= new Zend_Session_Namespace('paciente');
 		$paciente_id 	= $paciente_data->info;	
 		$exploracion	= new Zend_Session_Namespace('exploracion_fisica');
-		$data 			= array_merge($data,array('exp_pacid' => $paciente_id['id'])); 
+		$data 			= array_merge($data,array('exp_pacid' => $paciente_id['pac_id'])); 
 		$exploracion->info 	= $data;     	
 	}
 

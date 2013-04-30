@@ -12,14 +12,17 @@ class HistorialClinico_IndexController extends Weezer_Controller_Base
     public function indexAction()
     {
         // action body
-      $options = array('actions' => array('radio' => 'Seleccionar'));
+      $html_actions = $this->_getHtmlForActions();  
+      $options = array('actions' => array('html' => $html_actions));
     	
       $this->createList('Pacientes_Model_Pacientes',$options);
       	
     }
     
     public function addidAction(){
-		$params = array('labelSubmit' => 'Siguiente',
+
+		$params = array('attribs' => array('decorators' => array('pid_fechanac' => 'Calendar')),
+						 'labelSubmit' => 'Siguiente',
     					 'redirect' => array('module' => 'historialClinico'
     										 			,'controller' => 'index'
     										 			,'action' => 'addpadecimiento'));
@@ -49,7 +52,10 @@ class HistorialClinico_IndexController extends Weezer_Controller_Base
     
     public function addanopatologicosAction(){
     	
-    	$params = array('labelSubmit' => 'Siguiente',
+    	$params = array('attribs' => array('decorators' => array('anp_edadiniciosexual' => 'Calendar'
+    															  ,'anp_fechaultimopapanico' => 'Calendar'
+    															  ,'anp_fechausoanticon' => 'Calendar')),
+    					 'labelSubmit' => 'Siguiente',
     					 'redirect' => array('module' => 'historialClinico'
     										 			,'controller' => 'index'
     										 			,'action' => 'addapatologicos'));
@@ -98,8 +104,6 @@ class HistorialClinico_IndexController extends Weezer_Controller_Base
     	}
 			
     	$fields_to_show = $this->_getLabelsAndValues($info_paciente);
-    	//var_dump($fields_to_show);
-    	
     	$this->view->info_paciente = $fields_to_show;
     	
     	//Si se envio la forma
@@ -109,15 +113,19 @@ class HistorialClinico_IndexController extends Weezer_Controller_Base
     	}
     }
     
-    /*
-    public function mostrarpacienteAction(){
-    	$paciente_model = new Pacientes_Model_Pacientes();
-    	$pacientes_rows = $paciente_model->fetchAll("pac_activo = '1'")->toArray();
-    	
-    	$pacientes = $pacientes_rows;
-    	
-    }*/
-    
+    public function ajaxAction(){
+    	if ($this->getRequest()->isXmlHttpRequest()){
+    		$id_paciente 	= $this->_getParam('id');
+    		$paciente_model = new Pacientes_Model_Pacientes();
+			$row_paciente 	= $paciente_model->fetchRow("pac_id = {$id_paciente}");
+    		
+			$paciente_data = new Zend_Session_Namespace('paciente');
+     		$paciente_data->info = $row_paciente->toArray();
+     		
+     		$this->_helper->json($row_paciente);
+    	}
+    }
+
     /**
      * 
      * Metodo para obtener las etiquetas de los campos generados en el 'wizard'
@@ -166,6 +174,16 @@ class HistorialClinico_IndexController extends Weezer_Controller_Base
     	$est_cd_array 	= $paciente_model->getEstadoCiudad($id_ciudad);
     	
     	return $est_cd_array;
+    }
+    
+    protected function _getHtmlForActions(){
+    	
+    	$html_paciente = "<button class='btn btn-primary' title='Seleccionar Paciente' onclick=\"javascript: bluecare.setSessionPacient(_ID_);\">
+    						<i class='icon-ok icon-white'></i>
+    					  </button>";
+    	
+    	return $html_paciente;
+    	
     }
    
 }
