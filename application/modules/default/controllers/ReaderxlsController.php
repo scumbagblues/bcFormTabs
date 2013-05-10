@@ -15,7 +15,8 @@ class Default_ReaderxlsController extends Zend_Controller_Action
         // action body
 	    //  Read your Excel workbook
 	    // Se declara la clase PHPExcel para no tener problemas de que alguna clase no se "autocargue"
-	    $phpexcel = new PHPExcel();
+	
+    	$phpexcel = new PHPExcel();
     	$base_url = realpath ( dirname ( '.' ) ) . "/uploads/";;
 
     	$inputFileName = $base_url . 'Enfermedades_CIE10.xlsx';

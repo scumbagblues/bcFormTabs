@@ -1,10 +1,10 @@
 <div class='box_form'>
 	<h4>Datos del paciente</h4>
 	<p><strong>Nombre:</strong>
-		<?php echo $this->paciente_data['pac_nombre'] . ' ' . $this->paciente_data['pac_apellidoP'] . ' ' . $this->paciente_data['pac_apellidoM']?>
+		<?php echo utf8_encode($this->paciente_data['pac_nombre'] . ' ' . $this->paciente_data['pac_apellidoP'] . ' ' . $this->paciente_data['pac_apellidoM']);?>
 	</p>
 	<p><strong>Edad:</strong> <?php echo $this->paciente_data['pac_edad']?></p>
-	<p><strong>Domicilio:</strong> <?php echo $this->paciente_data['pac_domicilio']?></p>
+	<p><strong>Domicilio:</strong> <?php echo utf8_encode($this->paciente_data['pac_domicilio']);?></p>
 	<?php 
 		if (!is_null($this->pac_evolucion)){
 	?>
