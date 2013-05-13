@@ -8,11 +8,17 @@
 class Bluecare_Webservice_Epidemiologia{
 	
 	protected $_KEY_CATEGORIA = '7705FEC6B7F4AC5533CEA9DD409C636C94A823A3';
-	protected $_WSDL_URL = 'http://epidemiologia.grupoplenum.com:8185/WS/FormulariosWS.asmx?wsdl';
+	protected $_WSDL_URL_FORMS = 'http://epidemiologia.grupoplenum.com:8185/WS/FormulariosWS.asmx?wsdl';
+	protected $_WSDL_URL_CASOS = 'http://epidemiologia.grupoplenum.com:8185/WS/CasosEstudioWS.asmx?WSDL';
 	protected $_client_wsdl;
 	
-	public function __construct(){
-		$this->_client_wsdl = new Zend_Soap_Client($this->_WSDL_URL);
+	public function __construct($insert = false){
+		if ($insert){
+			$this->_client_wsdl = new Zend_Soap_Client($this->_WSDL_URL_CASOS);
+		}else{
+			$this->_client_wsdl = new Zend_Soap_Client($this->_WSDL_URL_FORMS);
+		}
+		
 	}
 	
 	public function getFormResult($cie_enfermedad){
@@ -51,6 +57,23 @@ class Bluecare_Webservice_Epidemiologia{
 		
 		
 		return $cat_opciones;
+	}
+	
+	public function getKeyWs(){
+		return $this->_KEY_CATEGORIA;
+	}
+	
+	public function insertData($data){
+		
+		try {
+			$mensaje = $this->_client_wsdl->Insert($data);
+			$resultado = $mensaje->InsertResult;
+			
+			return $resultado;
+		}catch (Exception $e){
+			throw new Exception("Ocurrio un error al obtener los datos, intente nuevamente");
+		}
+		
 	}
 	
 }

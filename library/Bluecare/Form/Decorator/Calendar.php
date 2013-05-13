@@ -33,20 +33,31 @@ class Bluecare_Form_Decorator_Calendar extends Zend_Form_Decorator_Abstract{
 		$options = array();
 		$calendar_element = new ZendX_JQuery_Form_Element_DatePicker($element->getName(), array(
 														    'jQueryParams' => array(
-														        'dateFormat' => 'dd-mm-yy',
+														        'dateFormat' => 'dd/mm/yy',
 																'nextText' => 'Siguiente',
 																'prevText' => 'Anterior',
 																'nextText' => 'Siguiente',
 																'currentText' => 'Hoy',
+																'changeMonth' => true,
+																'changeYear'=> true,
+																'yearRange' => 'c-120:c+10',
 																'monthNames' => array('Enero', 'Febrero', 
 																					   'Marzo', 'Abril', 'Mayo'
 																					 , 'Junio', 'Julio', 'Agosto'
 																					 , 'Septiembre', 'Octubre', 'Noviembre'
 																					 , 'Diciembre'),
-																'dayNamesMin' =>  array('Do','Lu','Ma','Mi','Ju','Vi','Sá'),					 
+																'monthNamesShort' => array('Ene','Feb','Mar','Abr'
+																					 	   ,'May','Jun','Jul','Ago'
+																					 	   ,'Sep','Oct','Nov','Dic'),					 
+																'dayNamesMin' =>  array('Do','Lu','Ma','Mi','Ju','Vi','Sá'),
+																'timeFormat' => 'hh:mm:ss',
+																'hourText' => 'Hora',
+																'minuteText' => 'Minutos',
+																'secondText' => 'Segundos',
+																'closeText' => 'Seleccionar hora'					 	   					 
 														    ),
 														   
-														));
+														),array('value' => $element->getValue()));
 		$label = '';
 		$html_select = "";
 		
@@ -54,7 +65,7 @@ class Bluecare_Form_Decorator_Calendar extends Zend_Form_Decorator_Abstract{
 			$label .= '*';
 		}
 		$label .= $element->getLabel ();
-		$label .= ':';
+		
 		
 		$html_label = $element->getView ()->formLabel ( $element->getName (), $label, array ('class' => 'control-label' ) );
 		

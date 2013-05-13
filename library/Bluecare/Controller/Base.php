@@ -31,26 +31,46 @@ class Bluecare_Controller_Base extends Zend_Controller_Action{
 		);
 		
 		$form = new Bluecare_Catalog_Form($form_params);
+		
 		//var_dump('hola',$form);die;
 		$this->view->form = $form;
 		
 		if ($this->getRequest()->isPost()){
+			//var_dump($form_data);die;
+			//$result = $this->_processRequest($form_data);
+			//var_dump($result);die;
 			//Si la forma es valida y el preSave devuelve TRUE..
-			if ($form->isValid($form_data) &&  $model->preSave($form, $form_data)){
+			
+			if ($form->isValid($form_data)){
 				//Se guardan los datos
-				
-				if ($model->postSave($form_data)){
-					//acciones a realizar despues de insercion exitosa
-				}else{
-						
-				}
-		
+				$result = $this->_processRequest($form_data);
+				var_dump($result);die;
 			}else{
+				var_dump($form_data);die;
 				$form->populate($form_data);
 			}
 		}else{
 			//$form->populate($form_data);
 		}
+	}
+	
+	protected function _processRequest($form_data){
+		$bluecare_ws = new Bluecare_Webservice_Epidemiologia(true);
+		$key_ws = $bluecare_ws->getKeyWs();
+		$send_data = array();
+
+		foreach ($form_data as $key => $value){
+			$concepto = new stdClass();
+			$concepto->Nombre = $key;
+			$concepto->Valor = $value;
+			
+			array_push($send_data, $concepto);
+		}
+		
+		$parametros_ws = array("Key" => $key_ws, "Conceptos" => $send_data);
+		$resultado = $bluecare_ws->insertData($parametros_ws);
+		
+		return $resultado;
 	}
 	
 }

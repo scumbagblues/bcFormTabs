@@ -15,7 +15,9 @@ $this->headTitle('Blue-Care');
 		<?php echo $this->jQuery();?>
 		<?php echo $this->headScript()->prependFile($this->baseUrl() . "/js/bootbox.js")
 									   ->prependFile($this->baseUrl() . "/js/funciones.js")
-									   ->prependFile($this->baseUrl() . "/js/bootstrap/bootstrap.js");?>
+									   ->prependFile($this->baseUrl() . "/js/bootstrap/bootstrap.js")
+									   ->prependFile($this->baseUrl() . "/js/jquery/jquery-ui-timepicker-addon.js");
+									   ?>
 		<script type="text/javascript">
 			bluecare.base_url = '<?php echo  $this->baseUrl()?>';
 		</script>							   

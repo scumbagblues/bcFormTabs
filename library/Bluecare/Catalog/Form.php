@@ -43,12 +43,14 @@ class Bluecare_Catalog_Form extends Zend_Form{
 		
 		$view = $this->getView();
 		$view->catalog_name = $catalog_info->Descripcion;
-		
 		$sections = $this->getSections($catalog_info);
+		if (!is_null($sections)){
+			$this->addElement('hidden','CODIGO_APLICACION',array('value' => $catalog_info->Codigo));
+			$this->_processSections($sections);
+		}else{
+			$view->no_form = 'No existen datos para esta enfermedad';
+		}
 		
-		//Next step
-		//TODO test all form
-		$this->_processSections($sections);
 		
 	
 	}
@@ -69,11 +71,13 @@ class Bluecare_Catalog_Form extends Zend_Form{
 		 * 	$section_name = $sections[4]->Nombre;
 			$this->_processQuestions($sections[6]);
 		 */
-		
+
 		foreach ($sections as $key => $questions){
 			$section_name = $questions->Nombre;
+			$this->addElement('text',$section_name,array('decorators' => array('SectionSeparator')
+														 ,'attribs' => array('name' => $section_name)));
 			$this->_processQuestions($questions);
-		}	
+		}
 			
 		$this->addElement ( 'submit', $this->_label_submit, array ('class' => 'btn btn-primary btn-large', 'decorators' => array ('Submit' ) ) );
 }
@@ -87,52 +91,97 @@ class Bluecare_Catalog_Form extends Zend_Form{
 	 */
 	protected function _processQuestions($quest){
 		$elements = array();
-		
-		foreach ($quest->Preguntas->PreguntaDTO as $key => $question){
+		if (is_array($quest->Preguntas->PreguntaDTO)){
+			foreach ($quest->Preguntas->PreguntaDTO as $key => $question){
 			
-			$label 			= $question->Nombre;
-			$tipo_pregunta 	= $question->TipoPregunta;
-			$options		= array();
-			$element 		= new stdClass();
-			
-			switch ($tipo_pregunta){
-					
-				case 'ListaDesplegable':
-					$element->html_type = 'select';
-					$element->multioptions = $this->getCatalogoOpciones($question);
-					break;
-			
-				case 'Fecha':
-					$element->html_type = 'text';
-					$element->decorator = 'Calendar';
-					break;
-			
-				case 'Abierta':
-					$element->html_type = 'text';
-					break;
-			
-				case 'Cerrada':
-				case 'Mixta':	
-					if (!is_null($question->Opciones->OpcionDTO)){
+				$label 			= $question->Nombre;
+				$tipo_pregunta 	= $question->TipoPregunta;
+				$options		= array();
+				$element 		= new stdClass();
+				
+				switch ($tipo_pregunta){
+						
+					case 'ListaDesplegable':
 						$element->html_type = 'select';
-						$element->multioptions = $this->_getMultiOptions($question->Opciones->OpcionDTO);
-					}else{
+						$element->multioptions = $this->getCatalogoOpciones($question);
+						break;
+				
+					case 'Fecha':
 						$element->html_type = 'text';
-					}
-					
-					break;
+						$element->decorator = 'Calendar';
+						break;
+				
+					case 'Abierta':
+						$element->html_type = 'text';
+						break;
+				
+					case 'Cerrada':
+					case 'Mixta':	
+						if (!is_null($question->Opciones->OpcionDTO)){
+							$element->html_type = 'select';
+							$element->multioptions = $this->_getMultiOptions($question->Opciones->OpcionDTO);
+						}else{
+							$element->html_type = 'text';
+						}
+						
+						break;
+				}
+				
+				$field_required = $question->Obligatoria;
+				if ($field_required){
+					$element->required = TRUE;
+				}
+				
+				$element->label = $label;
+				$element->name = $question->Concepto;
+				
+				$this->_processElement($element);
 			}
-			
-			$field_required = $question->Obligatoria;
-			if ($field_required){
-				$element->required = TRUE;
-			}
-			
-			$element->label = $label;
-			$element->name = $question->Concepto;
-			
-			$this->_processElement($element);
+		}else{
+				$label 			= $quest->Preguntas->PreguntaDTO->Nombre;
+				$tipo_pregunta 	= $quest->Preguntas->PreguntaDTO->TipoPregunta;
+				$options		= array();
+				$element 		= new stdClass();
+				
+				switch ($tipo_pregunta){
+						
+					case 'ListaDesplegable':
+						$element->html_type = 'select';
+						$element->multioptions = $this->getCatalogoOpciones($quest->Preguntas->PreguntaDTO);
+						break;
+				
+					case 'Fecha':
+						$element->html_type = 'text';
+						$element->decorator = 'Calendar';
+						break;
+				
+					case 'Abierta':
+						$element->html_type = 'text';
+						break;
+				
+					case 'Cerrada':
+					case 'Mixta':	
+						if (!is_null($question->Opciones->OpcionDTO)){
+							$element->html_type = 'select';
+							$element->multioptions = $this->_getMultiOptions($quest->Preguntas->PreguntaDTO->Opciones->OpcionDTO);
+						}else{
+							$element->html_type = 'text';
+						}
+						
+						break;
+				}
+				
+				$field_required = $question->Obligatoria;
+				if ($field_required){
+					$element->required = TRUE;
+				}
+				
+				$element->label = $label;
+				$element->name = $quest->Preguntas->PreguntaDTO->Concepto;
+				
+				$this->_processElement($element);
 		}
+		
 		
 	}
 	
@@ -146,15 +195,17 @@ class Bluecare_Catalog_Form extends Zend_Form{
 		$options['label'] = $element->label;
 			
 		if ($element->html_type == 'select') {
+			$element->multioptions = array_merge(array('' => ''),$element->multioptions);
 			$options['multiOptions'] = $element->multioptions;
 			$options['registerInArrayValidator'] = false;
 		}
 		//Se agregan validadores
+		/*
 		if (!is_null($element->validator)){
 			$options['validators'] = $element->validator;
 		}else{
 			$options['validators'] = array();
-		}
+		}*/
 			
 		$options ['decorators'] = $this->_decorators_default;
 		if (!is_null($element->decorator)){
@@ -163,7 +214,7 @@ class Bluecare_Catalog_Form extends Zend_Form{
 		}else{
 			$options['decorators'] = $this->_decorators_default;
 		}
-		
+
 		$options['disableLoadDefaultDecorators'] = true;
 		//Zend_Debug::dump($options);
 		$element_object = $this->addElement($element->html_type, $element->name, $options );

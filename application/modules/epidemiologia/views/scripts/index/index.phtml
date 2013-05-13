@@ -4,15 +4,27 @@
 ?>
 	 <div class='box_form'>	
 		<div class='row-fluid'>
-		    <div class='span4'>
+		    <div class='span7'>
 		    	<h3><?php echo $this->title; ?></h3>
 			</div>
 	    </div>
 	    <hr>
 	    <div class="divisor"></div>
-	    	<?php echo $this->form ; ?>
+	    	<?php  
+	    		if (!is_null($this->no_form)){
+	    			echo $this->no_form;
+	    		}else{
+	    			echo $this->form;
+	    		}
+	    	?>
 
 			
 			<!-- Leyenda al final de la forma -->
-			Los campos con * son obligatorios
+			<?php 
+			if (is_null($this->no_form)){
+			?>
+				Los campos con * son obligatorios	
+			<?php 
+			}		
+			?>				
 	 </div>		
