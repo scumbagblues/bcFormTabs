@@ -6,7 +6,7 @@
  *
  */
 class Bluecare_Form_Decorator_Composite extends Zend_Form_Decorator_Abstract{
-	
+	protected $_placement = 'APPEND';
 	/**
 	 * 
 	 * Metodo para crear la etiqueta del campo
@@ -17,9 +17,9 @@ class Bluecare_Form_Decorator_Composite extends Zend_Form_Decorator_Abstract{
 		
 		//Si el elemento es obligatorio antepone un asterisco
 		if ($element->isRequired ()) {
-			$label .= '*';
+			$label .= '* ';
 		}
-		
+		$label = $label . $element->getLabel();
 		$html_label = $element->getView ()->formLabel ( $element->getName (), ($label));
 		
 		return $html_label;
@@ -52,6 +52,10 @@ class Bluecare_Form_Decorator_Composite extends Zend_Form_Decorator_Abstract{
 				$html_element = $element->getView()->$helper( $element->getName(), $element->getValue(),  $element->field_attribs );
 		}
 		
+		$label = $this->buildLabel();
+		
+		$html_element = "<span class='span6 show-grid'>{$label} {$html_element}</span>";
+		
 		return $html_element;
 	}
 	
@@ -59,15 +63,47 @@ class Bluecare_Form_Decorator_Composite extends Zend_Form_Decorator_Abstract{
 	 * 
 	 * Metodo para modificar el decorador de errores
 	 */
-	public function buildErrors(){
+	public function buildErrors() {
+		$element = $this->getElement();
+		$messages = $element->getMessages();
 		
+		if (empty ( $messages )) {
+			return '';
+		}
+		//Se settea los elementos html de inicio y fin para el html de errores
+		$form_errors_helper = $element->getView()->getHelper('formErrors');
+		$form_errors_helper	->setElementStart('<div class="alert-error alert-font-size">') 
+               				->setElementSeparator('<br />') 
+               				->setElementEnd('</div>'); 
+
+		return $element->getView()->formErrors( $messages );
 	}
 	
 	/**
 	 * (non-PHPdoc)
 	 * @see Zend_Form_Decorator_Abstract::render()
 	 */
-	public function render($content){
+	public function render($content) {
+		$element = $this->getElement ();
+		if (! $element instanceof Zend_Form_Element) {
+			return $content;
+		}
+		if (null === $element->getView()) {
+			return $content;
+		}
 		
+		$separator = $this->getSeparator();
+		$placement = $this->getPlacement();
+		$html_input= $this->buildInput();
+		$errors = $this->buildErrors();
+		$output = $html_input ;
+		
+		switch ($placement) {
+			case (self::PREPEND) :
+				return $output . $separator . $content;
+			case (self::APPEND) :
+			default :
+				return $output;
+		}
 	}
 } 

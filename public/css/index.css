@@ -239,3 +239,8 @@ th {
     color: #333333;
     font-size: 25px;
 }
+
+.show-grid {
+	margin-top: 10px;
+	margin-bottom: 20px;
+}

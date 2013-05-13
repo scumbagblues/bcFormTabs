@@ -39,9 +39,16 @@ class Bluecare_Webservice_Epidemiologia{
 		$catalog_options 	= $this->_client_wsdl->RetrieveOpcionesCatalogo($params_ws);
 		$resultado 			= $catalog_options->RetrieveOpcionesCatalogoResult;
 		
-		foreach ($resultado->OpcionCatalogoDTO as $key => $value){
-			$cat_opciones[$value->Valor] = $value->Texto;
+		if(is_array($resultado->OpcionCatalogoDTO)){
+			foreach ($resultado->OpcionCatalogoDTO as $key => $value){
+				$cat_opciones[$value->Valor] = $value->Texto;
+			}
+		}else{
+			$key_field = $resultado->OpcionCatalogoDTO->Valor;
+			$value_field = $resultado->OpcionCatalogoDTO->Texto;
+			$cat_opciones[$key_field] = $value_field;
 		}
+		
 		
 		return $cat_opciones;
 	}

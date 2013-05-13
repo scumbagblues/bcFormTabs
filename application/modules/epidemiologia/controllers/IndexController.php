@@ -1,6 +1,6 @@
 <?php
 
-class Epidemiologia_IndexController extends Weezer_Controller_Base
+class Epidemiologia_IndexController extends Bluecare_Controller_Base
 {
 
     public function init()
@@ -10,7 +10,11 @@ class Epidemiologia_IndexController extends Weezer_Controller_Base
 
     public function indexAction()
     {
-        // action body
+    	
+    	$params = array('enfermedad' => 'A300');
+    	
+        $form = $this->createForm($params);
+       
     }
 
 

@@ -3,11 +3,12 @@
 class Bluecare_Catalog_Form extends Zend_Form{
 	
 	protected $_form_name;
-	protected $_form_attribs;
 	protected $_enfermedad;
+	protected $_decorators_default 	= array('Composite');
+	protected $_label_submit = 'Guardar';
 	
 	
-	public function render($view){
+	public function render($view = NULL){
 		return parent::render($view);	
 	}
 	
@@ -23,6 +24,20 @@ class Bluecare_Catalog_Form extends Zend_Form{
 			)
 		);
 		
+		$this->setDecorators(array(
+				'FormElements',
+				'Form',
+				new Zend_Form_Decorator_FormErrors(array('placement' => 'prepend',
+														'ignoreSubForms'=>true,
+														'markupElementLabelEnd'=> '</b>',
+														'markupElementLabelStart'=> '<b>',
+														'markupListEnd' => '</div>',
+														'markupListItemEnd'=>'</span>',
+														'markupListItemStart'=>'<span>',
+														'markupListStart'=>"<div class='alert-error'>"
+														)),
+			));
+		
 		$webservice_class = new Bluecare_Webservice_Epidemiologia();
 		$catalog_info = $webservice_class->getFormResult($this->_enfermedad);
 		
@@ -32,13 +47,14 @@ class Bluecare_Catalog_Form extends Zend_Form{
 		$sections = $this->getSections($catalog_info);
 		
 		//Next step
-		//$this->_processSections($sections);
+		//TODO test all form
+		$this->_processSections($sections);
 		
 	
 	}
 	
 	public function getSections($catalog_info){
-		return $catalog_info->Secciones->SeccionesDTO;
+		return $catalog_info->Secciones->SeccionDTO;
 	}
 	
 	/**
@@ -46,15 +62,22 @@ class Bluecare_Catalog_Form extends Zend_Form{
 	 * Método para procesar las secciones y generar los campos
 	 * @param unknown_type $sections
 	 */
-	protected function _processSections($sections){
+	protected function _processSections($sections){		
+		/*
+		 * TEST CODE
+		 * Quitar el foreach e iterar de 1 en 1
+		 * 	$section_name = $sections[4]->Nombre;
+			$this->_processQuestions($sections[6]);
+		 */
+		
 		foreach ($sections as $key => $questions){
 			$section_name = $questions->Nombre;
+			$this->_processQuestions($questions);
+		}	
 			
-			foreach ($questions->PreguntaDTO as $key => $quest){
-					
-			}
-		}
-	}
+		$this->addElement ( 'submit', $this->_label_submit, array ('class' => 'btn btn-primary btn-large', 'decorators' => array ('Submit' ) ) );
+}
+	
 	
 	/**
 	 * 
@@ -62,42 +85,88 @@ class Bluecare_Catalog_Form extends Zend_Form{
 	 * que el WS provee
 	 * @param unknown_type $questions
 	 */
-	protected function _processQuestions($questions){
-		$label 			= $questions->Nombre;
-		$tipo_pregunta 	= $questions->TipoPregunta;
-		$options		= array();
-		$element 		= new stdClass();
+	protected function _processQuestions($quest){
+		$elements = array();
 		
-		switch ($tipo_pregunta){
+		foreach ($quest->Preguntas->PreguntaDTO as $key => $question){
 			
-			case 'ListaDesplegable':
-				$element->html_type = 'select';
-				$element->multioptions = $this->getCatalogoOpciones($questions->Catalogo);
-			break;
-
-			case 'Fecha':
-				$element->html_type = 'text';
-				$element->decorator = 'Calendar';
-			break;
-
-			case 'Abierta':
-				$element->html_type = 'text';
-			break;
-
-			case 'Cerrada':
-				$element->html_type = 'select';
-				$element->multioptions = $this->_getMultiOptions($questions->Opciones->OpcionDTO);
-			break;	
+			$label 			= $question->Nombre;
+			$tipo_pregunta 	= $question->TipoPregunta;
+			$options		= array();
+			$element 		= new stdClass();
+			
+			switch ($tipo_pregunta){
+					
+				case 'ListaDesplegable':
+					$element->html_type = 'select';
+					$element->multioptions = $this->getCatalogoOpciones($question);
+					break;
+			
+				case 'Fecha':
+					$element->html_type = 'text';
+					$element->decorator = 'Calendar';
+					break;
+			
+				case 'Abierta':
+					$element->html_type = 'text';
+					break;
+			
+				case 'Cerrada':
+				case 'Mixta':	
+					if (!is_null($question->Opciones->OpcionDTO)){
+						$element->html_type = 'select';
+						$element->multioptions = $this->_getMultiOptions($question->Opciones->OpcionDTO);
+					}else{
+						$element->html_type = 'text';
+					}
+					
+					break;
+			}
+			
+			$field_required = $question->Obligatoria;
+			if ($field_required){
+				$element->required = TRUE;
+			}
+			
+			$element->label = $label;
+			$element->name = $question->Concepto;
+			
+			$this->_processElement($element);
 		}
 		
-		$field_required = $questions->Obligatoria;
-		if ($field_required){
-			$element->required = TRUE;
+	}
+	
+	protected function _processElement($element){
+		$options = array();
+		
+		if($element->required){
+			$options['required'] = TRUE;
+		}
+			
+		$options['label'] = $element->label;
+			
+		if ($element->html_type == 'select') {
+			$options['multiOptions'] = $element->multioptions;
+			$options['registerInArrayValidator'] = false;
+		}
+		//Se agregan validadores
+		if (!is_null($element->validator)){
+			$options['validators'] = $element->validator;
+		}else{
+			$options['validators'] = array();
+		}
+			
+		$options ['decorators'] = $this->_decorators_default;
+		if (!is_null($element->decorator)){
+			$decorador = $element->decorator;
+			$options['decorators'] = array($decorador);
+		}else{
+			$options['decorators'] = $this->_decorators_default;
 		}
 		
-		$element->name = $questions->Concepto;
-		
-		return $element;
+		$options['disableLoadDefaultDecorators'] = true;
+		//Zend_Debug::dump($options);
+		$element_object = $this->addElement($element->html_type, $element->name, $options );
 	}
 	
 	
@@ -111,7 +180,7 @@ class Bluecare_Catalog_Form extends Zend_Form{
 		$multioptions = array();
 		
 		foreach ($opciones as $key => $value){
-			$multioptions[$value->Orden] = utf8_encode($value->Texto);
+			$multioptions[$value->Orden] = $value->Texto;
 		}
 		
 		return $multioptions;
@@ -124,8 +193,15 @@ class Bluecare_Catalog_Form extends Zend_Form{
 	 * @param unknown_type $catalogo
 	 */
 	public function getCatalogoOpciones($catalogo){
-		$bluecare_ws = new Bluecare_Webservice_Epidemiologia();
-		$catalog_options = $bluecare_ws->getCatalogOptions($catalogo);
+		
+		
+		if (property_exists($catalogo->Catalogo,'Nombre')){
+			$bluecare_ws = new Bluecare_Webservice_Epidemiologia();
+			$catalog_options = $bluecare_ws->getCatalogOptions($catalogo->Catalogo);
+		}else{
+			$catalog_options = $this->_getMultiOptions($catalogo->Opciones->OpcionDTO);
+		}
+		
 		
 		return $catalog_options;
 	}
@@ -155,8 +231,10 @@ class Bluecare_Catalog_Form extends Zend_Form{
 	 * @param array $attribs
 	 */
 	public function setFormAttribs($attribs){
-		$this->_form_attribs = $attribs;
-	}
+		if (is_array($attribs) && !is_null($attribs)){
+			$this->_attribs = $attribs; //Atributos para la forma
+		}
+	}	
 	
 	/**
 	 *
