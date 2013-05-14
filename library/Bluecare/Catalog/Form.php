@@ -71,7 +71,8 @@ class Bluecare_Catalog_Form extends Zend_Form{
 		 * 	$section_name = $sections[4]->Nombre;
 			$this->_processQuestions($sections[6]);
 		 */
-
+		
+	
 		foreach ($sections as $key => $questions){
 			$section_name = $questions->Nombre;
 			$this->addElement('text',$section_name,array('decorators' => array('SectionSeparator')
@@ -189,13 +190,15 @@ class Bluecare_Catalog_Form extends Zend_Form{
 		$options = array();
 		
 		if($element->required){
+			$options['field_attribs'] = array('data-required' => 'true');
 			$options['required'] = TRUE;
+			//$options['validators'] = array(array('Digits', false,array('messages' => array('notDigits' => 'Only digits are allowed here'))));
 		}
 			
 		$options['label'] = $element->label;
 			
 		if ($element->html_type == 'select') {
-			$element->multioptions = array_merge(array('' => ''),$element->multioptions);
+			//$element->multioptions = array_merge(array('' => ''),$element->multioptions);
 			$options['multiOptions'] = $element->multioptions;
 			$options['registerInArrayValidator'] = false;
 		}
@@ -217,7 +220,7 @@ class Bluecare_Catalog_Form extends Zend_Form{
 
 		$options['disableLoadDefaultDecorators'] = true;
 		//Zend_Debug::dump($options);
-		$element_object = $this->addElement($element->html_type, $element->name, $options );
+		$this->addElement($element->html_type, $element->name, $options );		
 	}
 	
 	

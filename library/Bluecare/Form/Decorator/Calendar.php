@@ -57,7 +57,9 @@ class Bluecare_Form_Decorator_Calendar extends Zend_Form_Decorator_Abstract{
 																'closeText' => 'Seleccionar hora'					 	   					 
 														    ),
 														   
-														),array('value' => $element->getValue()));
+														));
+		$calendar_element->setAttribs($element->field_attribs);												
+		$calendar_element->setValue($element->getValue());												
 		$label = '';
 		$html_select = "";
 		

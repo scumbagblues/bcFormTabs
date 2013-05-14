@@ -21,7 +21,9 @@ class Bluecare_Controller_Base extends Zend_Controller_Action{
 		$form_params = array(
 				'formName' => 'epidemiologia',
 				'formAttribs' => array(
-						'class' => 'form-inline'
+						'class' => 'form-inline',
+						'data-validate'=> 'parsley',
+						'data-show-errors' => 'true',
 				),
 				'enfermedad' => $this->_enfermedad_cie,
 				/*'formParams' 		=> $params,*/
@@ -40,18 +42,19 @@ class Bluecare_Controller_Base extends Zend_Controller_Action{
 			//$result = $this->_processRequest($form_data);
 			//var_dump($result);die;
 			//Si la forma es valida y el preSave devuelve TRUE..
-			
-			if ($form->isValid($form_data)){
+			//$bluecare_form_validator = new Bluecare_Form_Validate_Fieldsform();
+			//if ($bluecare_form_validator->isValid($form_data)){
+			//var_dump($form_data);die;
+			//if ($form->isValid($form_data)){
 				//Se guardan los datos
 				$result = $this->_processRequest($form_data);
 				var_dump($result);die;
 			}else{
-				var_dump($form_data);die;
-				$form->populate($form_data);
+				//var_dump('la forma no se valido');die;
+				//var_dump($form->getErrors(),$form->getErrorMessages());
+				//$form->populate($form_data);
 			}
-		}else{
-			//$form->populate($form_data);
-		}
+		
 	}
 	
 	protected function _processRequest($form_data){

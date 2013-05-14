@@ -1,3 +1,5 @@
+<script type="text/javascript" src="<?php echo $this->baseUrl() . "/js/jquery/"?>messages.es.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl() . "/js/jquery/"?>parsley.js"></script>
 <?php
 	$this->title = $this->catalog_name;//"{$this->action} {$this->catalog}";
 	$this->headTitle($this->title);
@@ -28,3 +30,10 @@
 			}		
 			?>				
 	 </div>		
+	 <script type="text/javascript">
+		$('#frmepidemiologia').parsley( {
+			showErrors: false
+		} );
+	</script> 
+	
+	

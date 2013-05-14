@@ -71,6 +71,7 @@ class Bluecare_Webservice_Epidemiologia{
 			
 			return $resultado;
 		}catch (Exception $e){
+			
 			throw new Exception("Ocurrio un error al obtener los datos, intente nuevamente");
 		}
 		
