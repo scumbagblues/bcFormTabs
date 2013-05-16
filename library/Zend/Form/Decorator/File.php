@@ -38,7 +38,7 @@ require_once 'Zend/File/Transfer/Adapter/Http.php';
  * @subpackage Decorator
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: File.php 25067 2012-11-03 14:20:28Z rob $
+ * @version    $Id: File.php 24594 2012-01-05 21:27:01Z matthew $
  */
 class Zend_Form_Decorator_File
     extends Zend_Form_Decorator_Abstract
@@ -117,17 +117,16 @@ class Zend_Form_Decorator_File
             $markup[] = $view->formHidden('UPLOAD_IDENTIFIER', uniqid(), array('id' => 'progress_key'));
         }
 
-        $helper = $element->helper;
         if ($element->isArray()) {
             $name .= "[]";
             $count = $element->getMultiFile();
             for ($i = 0; $i < $count; ++$i) {
                 $htmlAttribs        = $attribs;
                 $htmlAttribs['id'] .= '-' . $i;
-                $markup[] = $view->$helper($name, $htmlAttribs);
+                $markup[] = $view->formFile($name, $htmlAttribs);
             }
         } else {
-            $markup[] = $view->$helper($name, $attribs);
+            $markup[] = $view->formFile($name, $attribs);
         }
 
         $markup = implode($separator, $markup);

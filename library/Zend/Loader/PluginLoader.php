@@ -17,7 +17,7 @@
  * @subpackage PluginLoader
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: PluginLoader.php 24877 2012-06-04 14:04:53Z adamlundrigan $
+ * @version    $Id: PluginLoader.php 24594 2012-01-05 21:27:01Z matthew $
  */
 
 /** Zend_Loader_PluginLoader_Interface */
@@ -127,8 +127,12 @@ class Zend_Loader_PluginLoader implements Zend_Loader_PluginLoader_Interface
             return $prefix;
         }
 
-        $nsSeparator = (false !== strpos($prefix, '\\'))?'\\':'_';
-        return rtrim($prefix, $nsSeparator) . $nsSeparator;
+        $last = strlen($prefix) - 1;
+        if ($prefix{$last} == '\\') {
+            return $prefix;
+        }
+
+        return rtrim($prefix, '_') . '_';
     }
 
     /**
@@ -368,11 +372,7 @@ class Zend_Loader_PluginLoader implements Zend_Loader_PluginLoader_Interface
 
         $registry  = array_reverse($registry, true);
         $found     = false;
-        if (false !== strpos($name, '\\')) {
-            $classFile = str_replace('\\', DIRECTORY_SEPARATOR, $name) . '.php';
-        } else {
-            $classFile = str_replace('_', DIRECTORY_SEPARATOR, $name) . '.php';
-        }
+        $classFile = str_replace('_', DIRECTORY_SEPARATOR, $name) . '.php';
         $incFile   = self::getIncludeFileCache();
         foreach ($registry as $prefix => $paths) {
             $className = $prefix . $name;

@@ -40,6 +40,7 @@ class Bluecare_Form_Decorator_Composite extends Zend_Form_Decorator_Abstract{
 				break;
 			
 			case 'formSelect':
+				
 				$html_element = $element->getView()->$helper($element->getName(), $element->getValue(), $element->field_attribs, $element->options);
 			break;
 			case 'formCheckbox':

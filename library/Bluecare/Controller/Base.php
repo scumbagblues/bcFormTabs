@@ -9,11 +9,7 @@ class Bluecare_Controller_Base extends Zend_Controller_Action{
 		
 		$model = new Bluecare_Model_Base();
 		$form_data = '';
-		
-		if ($this->getRequest()->isPost()){
-			$form_data = $this->getRequest()->getPost();
-		}
-		
+
 		if (isset($params['enfermedad'])){
 			$this->_enfermedad_cie = $params['enfermedad'];
 		}
@@ -38,30 +34,24 @@ class Bluecare_Controller_Base extends Zend_Controller_Action{
 		$this->view->form = $form;
 		
 		if ($this->getRequest()->isPost()){
-			//var_dump($form_data);die;
-			//$result = $this->_processRequest($form_data);
-			//var_dump($result);die;
-			//Si la forma es valida y el preSave devuelve TRUE..
-			//$bluecare_form_validator = new Bluecare_Form_Validate_Fieldsform();
-			//if ($bluecare_form_validator->isValid($form_data)){
-			//var_dump($form_data);die;
-			//if ($form->isValid($form_data)){
-				//Se guardan los datos
-				$result = $this->_processRequest($form_data);
-				var_dump($result);die;
-			}else{
-				//var_dump('la forma no se valido');die;
-				//var_dump($form->getErrors(),$form->getErrorMessages());
-				//$form->populate($form_data);
-			}
-		
+			$form_data = $this->getRequest()->getPost();
+			
+			//Se guardan los datos
+			$result = $this->_processRequest($form_data);
+			var_dump($result);die;
+		}
 	}
 	
 	protected function _processRequest($form_data){
 		$bluecare_ws = new Bluecare_Webservice_Epidemiologia(true);
 		$key_ws = $bluecare_ws->getKeyWs();
 		$send_data = array();
-
+		
+		$concepts = new Zend_Session_Namespace('concepts');
+		$conceptos = $concepts->info;
+		
+		$form_data = $this->getArrayFormData($conceptos, $form_data);
+	
 		foreach ($form_data as $key => $value){
 			$concepto = new stdClass();
 			$concepto->Nombre = $key;
@@ -71,9 +61,18 @@ class Bluecare_Controller_Base extends Zend_Controller_Action{
 		}
 		
 		$parametros_ws = array("Key" => $key_ws, "Conceptos" => $send_data);
+		
 		$resultado = $bluecare_ws->insertData($parametros_ws);
 		
 		return $resultado;
+	}
+	
+	protected function getArrayFormData($concepts,$form_data){
+		array_unshift($concepts, 'CODIGO_APLICACION');
+		$form_data = array_combine($concepts, $form_data);
+		
+		return $form_data;
+		
 	}
 	
 }

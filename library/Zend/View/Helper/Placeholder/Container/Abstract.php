@@ -16,7 +16,7 @@
  * @package    Zend_View
  * @subpackage Helper
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @version    $Id: Abstract.php 25255 2013-02-13 15:25:39Z frosch $
+ * @version    $Id: Abstract.php 24594 2012-01-05 21:27:01Z matthew $
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
@@ -93,7 +93,7 @@ abstract class Zend_View_Helper_Placeholder_Container_Abstract extends ArrayObje
     /**
      * Constructor - This is needed so that we can attach a class member as the ArrayObject container
      *
-     * @return \Zend_View_Helper_Placeholder_Container_Abstract
+     * @return void
      */
     public function __construct()
     {
@@ -252,10 +252,9 @@ abstract class Zend_View_Helper_Placeholder_Container_Abstract extends ArrayObje
     /**
      * Start capturing content to push into placeholder
      *
-     * @param int|string $type How to capture content into placeholder; append, prepend, or set
-     * @param null       $key
-     * @throws Zend_View_Helper_Placeholder_Container_Exception
+     * @param  int $type How to capture content into placeholder; append, prepend, or set
      * @return void
+     * @throws Zend_View_Helper_Placeholder_Exception if nested captures detected
      */
     public function captureStart($type = Zend_View_Helper_Placeholder_Container_Abstract::APPEND, $key = null)
     {
@@ -350,16 +349,10 @@ abstract class Zend_View_Helper_Placeholder_Container_Abstract extends ArrayObje
     /**
      * Render the placeholder
      *
-     * @param null $indent
      * @return string
      */
     public function toString($indent = null)
     {
-        // Check items
-        if (0 === $this->count()) {
-            return '';
-        }
-
         $indent = ($indent !== null)
                 ? $this->getWhitespace($indent)
                 : $this->getIndent();

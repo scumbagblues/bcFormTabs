@@ -37,13 +37,14 @@ class Default_ReaderxlsController extends Zend_Controller_Action
 		$enfermedades_model = new Default_Model_Enfermedades();
 		
 		
-    	for ($row = 2; $row <= $highestRow; ++$row) {  
-			for ($col = 0; $col < $highestColumn; ++$col) {  
+    	for ($row = 2; $row <= $highestRow-1; ++$row) {  
+			for ($col = 0; $col < count($array_index); ++$col) {  
 				    $value	= $objWorksheet->getCellByColumnAndRow($col, $row)->getValue();
 				    $col_name = $array_index[$col];  
 				    $rows_enfermedades[$col_name] = utf8_decode($value);
 				    //$items_content[$row-1][$col_name] = utf8_decode($value);
 			}  	    
+			
 			 $enfermedades_model->insert($rows_enfermedades);
 		}
 		

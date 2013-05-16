@@ -47,6 +47,12 @@ class Bluecare_Catalog_Form extends Zend_Form{
 		if (!is_null($sections)){
 			$this->addElement('hidden','CODIGO_APLICACION',array('value' => $catalog_info->Codigo));
 			$this->_processSections($sections);
+			$concepts = $this->getConceptNames($sections);
+			
+			$concepts_data = new Zend_Session_Namespace('concepts');
+			$concepts_data->info = $concepts;
+			
+			
 		}else{
 			$view->no_form = 'No existen datos para esta enfermedad';
 		}
@@ -57,6 +63,24 @@ class Bluecare_Catalog_Form extends Zend_Form{
 	
 	public function getSections($catalog_info){
 		return $catalog_info->Secciones->SeccionDTO;
+	}
+	
+	public function getConceptNames($sections){
+		
+		$concepts = array();
+
+		foreach ($sections as $key => $questions){
+			
+			if (is_array($questions->Preguntas->PreguntaDTO)){
+				foreach ($questions->Preguntas->PreguntaDTO as $key => $question){
+					$concepts[] = $question->Concepto;
+				}
+			}else{
+				$concepts[] = $questions->Preguntas->PreguntaDTO->Concepto;
+			}	
+		}
+		
+		return $concepts;
 	}
 	
 	/**
@@ -91,7 +115,11 @@ class Bluecare_Catalog_Form extends Zend_Form{
 	 * @param unknown_type $questions
 	 */
 	protected function _processQuestions($quest){
+		
 		$elements = array();
+		
+		
+		
 		if (is_array($quest->Preguntas->PreguntaDTO)){
 			foreach ($quest->Preguntas->PreguntaDTO as $key => $question){
 			
@@ -135,7 +163,7 @@ class Bluecare_Catalog_Form extends Zend_Form{
 				
 				$element->label = $label;
 				$element->name = $question->Concepto;
-				
+			
 				$this->_processElement($element);
 			}
 		}else{
@@ -220,7 +248,11 @@ class Bluecare_Catalog_Form extends Zend_Form{
 
 		$options['disableLoadDefaultDecorators'] = true;
 		//Zend_Debug::dump($options);
-		$this->addElement($element->html_type, $element->name, $options );		
+		$concept_names = new Zend_Session_Namespace('concepts');
+		$concept_names->data[] = $element->name;
+		$element_object = $this->createElement($element->html_type, $element->name, $options );	
+		$element_object->clearFilters();
+		$this->addElement($element_object);
 	}
 	
 	

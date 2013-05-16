@@ -58,7 +58,10 @@ class Bluecare_Form_Decorator_Calendar extends Zend_Form_Decorator_Abstract{
 														    ),
 														   
 														));
-		$calendar_element->setAttribs($element->field_attribs);												
+		if (is_array($element->field_attribs)){
+			$calendar_element->setAttribs($element->field_attribs);	
+		}												
+													
 		$calendar_element->setValue($element->getValue());												
 		$label = '';
 		$html_select = "";
