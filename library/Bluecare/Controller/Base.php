@@ -38,7 +38,12 @@ class Bluecare_Controller_Base extends Zend_Controller_Action{
 			
 			//Se guardan los datos
 			$result = $this->_processRequest($form_data);
-			var_dump($result);die;
+			if (!is_null($result)){
+				//redirige
+				var_dump($result);die;
+			}else{
+				//muestra error
+			}
 		}
 	}
 	
@@ -61,14 +66,14 @@ class Bluecare_Controller_Base extends Zend_Controller_Action{
 		}
 		
 		$parametros_ws = array("Key" => $key_ws, "Conceptos" => $send_data);
-		
+		var_dump($parametros_ws);die;
 		$resultado = $bluecare_ws->insertData($parametros_ws);
 		
 		return $resultado;
 	}
 	
 	protected function getArrayFormData($concepts,$form_data){
-		array_unshift($concepts, 'CODIGO_APLICACION');
+		//array_unshift($concepts, 'CODIGO_APLICACION');
 		$form_data = array_combine($concepts, $form_data);
 		
 		return $form_data;

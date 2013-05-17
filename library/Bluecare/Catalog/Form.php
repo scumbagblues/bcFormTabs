@@ -45,7 +45,7 @@ class Bluecare_Catalog_Form extends Zend_Form{
 		$view->catalog_name = $catalog_info->Descripcion;
 		$sections = $this->getSections($catalog_info);
 		if (!is_null($sections)){
-			$this->addElement('hidden','CODIGO_APLICACION',array('value' => $catalog_info->Codigo));
+			//$this->addElement('hidden','CODIGO_APLICACION',array('value' => $catalog_info->Codigo));
 			$this->_processSections($sections);
 			$concepts = $this->getConceptNames($sections);
 			
@@ -95,13 +95,15 @@ class Bluecare_Catalog_Form extends Zend_Form{
 		 * 	$section_name = $sections[4]->Nombre;
 			$this->_processQuestions($sections[6]);
 		 */
-		
-	
+
 		foreach ($sections as $key => $questions){
 			$section_name = $questions->Nombre;
 			$this->addElement('text',$section_name,array('decorators' => array('SectionSeparator')
 														 ,'attribs' => array('name' => $section_name)));
-			$this->_processQuestions($questions);
+			if (!is_null($questions->Preguntas)){
+				$this->_processQuestions($questions);
+			}											 
+			
 		}
 			
 		$this->addElement ( 'submit', $this->_label_submit, array ('class' => 'btn btn-primary btn-large', 'decorators' => array ('Submit' ) ) );
@@ -264,9 +266,10 @@ class Bluecare_Catalog_Form extends Zend_Form{
 	protected function _getMultiOptions($opciones_object){
 		$opciones = $opciones_object;
 		$multioptions = array();
-		
-		foreach ($opciones as $key => $value){
-			$multioptions[$value->Orden] = $value->Texto;
+		if(is_array($opciones)){
+			foreach ($opciones as $key => $value){
+				$multioptions[$value->Orden] = $value->Texto;
+			}	
 		}
 		
 		return $multioptions;

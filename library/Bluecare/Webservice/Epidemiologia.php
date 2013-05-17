@@ -64,10 +64,12 @@ class Bluecare_Webservice_Epidemiologia{
 	}
 	
 	public function insertData($data){
-
+		try {
 			$mensaje = $this->_client_wsdl->Insert($data);
 			$resultado = $mensaje->InsertResult;
-			
+		}catch (Exception $e){
+			throw new Exception("Ocurrio un error al procesar la información: {$e->getMessage()}");
+		}	
 		return $resultado;
 	}
 	
