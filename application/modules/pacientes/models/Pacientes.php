@@ -3,14 +3,22 @@
 class Pacientes_Model_Pacientes extends Weezer_Model_Base{
 	
 	protected $_name = 'paciente';
-	protected $_primary = 'pac_id';
-    public $_table_prefix = 'pac';
+	protected $_primary = 'id_paciente';
+    //public $_table_prefix = 'pac';
     
     
      public function addElements($data){
-     	$data = parent::addElements($data);
+     	$id = $this->insert($data);
+	  	//Si se inserto correctamente la info
+	  	//se devuelve y se adjunta su nuevo id
+	    if ($id){
+	    	$data = array_merge($data,array("id" => $id));
+	    }
+	    
      	$paciente_data = new Zend_Session_Namespace('paciente');
      	$paciente_data->info = $data;
+     	
+     	 return $data;
      }
 
      public function getEstadoCiudad($id_ciudad){

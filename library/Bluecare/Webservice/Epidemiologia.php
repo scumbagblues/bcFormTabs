@@ -8,8 +8,8 @@
 class Bluecare_Webservice_Epidemiologia{
 	
 	protected $_KEY_CATEGORIA = '7705FEC6B7F4AC5533CEA9DD409C636C94A823A3';
-	protected $_WSDL_URL_FORMS = 'http://epidemiologia.grupoplenum.com:8185/WS/FormulariosWS.asmx?wsdl';
-	protected $_WSDL_URL_CASOS = 'http://epidemiologia.grupoplenum.com:8185/WS/CasosEstudioWS.asmx?WSDL';
+	protected $_WSDL_URL_FORMS = 'http://ws.epidemiologia.sesaqroo.mx/WS/FormulariosWS.asmx?wsdl';
+	protected $_WSDL_URL_CASOS = 'http://ws.epidemiologia.sesaqroo.mx/WS/CasosEstudioWS.asmx?WSDL';
 	protected $_client_wsdl;
 	
 	public function __construct($insert = false){

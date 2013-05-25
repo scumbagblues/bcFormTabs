@@ -18,10 +18,10 @@ class Pacientes_IndexController extends Weezer_Controller_Base
     	//Para saber si proviene de la generacion de un nuevo historial clinico
     	$hc_param = $this->_getParam('hc');
     	
-    	$params = array('attribs' => array('decorators' => array('pac_idestado' => 'SelectEstados'
-    															  ,'pac_idciudad' => 'SelectCiudades'),
-    										 'field_attribs' => array('pac_idestado' => 
-    															  		array('onchange' => "javascript: weezer.combos.select(this.value,'pacientes index ajax','pac_idciudad')")),
+    	$params = array('attribs' => array('decorators' => array('entidad' => 'SelectEstados'
+    															  ,'municipio' => 'SelectCiudades'),
+    										 'field_attribs' => array('entidad' => 
+    															  		array('onchange' => "javascript: weezer.combos.select(this.value,'pacientes index ajax','municipio')")),
     										),			
     					);
     					
@@ -37,6 +37,7 @@ class Pacientes_IndexController extends Weezer_Controller_Base
     	$this->_forward('catalogform','index','default');
     }
     
+    /*
     public function editAction(){
     	$params = array('attribs' => array('decorators' => array('pac_idestado' => 'SelectEstados'
     															  ,'pac_idciudad' => 'SelectCiudades'),
@@ -50,7 +51,7 @@ class Pacientes_IndexController extends Weezer_Controller_Base
     public function deleteAction(){
     	$this->deleteRow($this->_table);
     	$this->_forward('catalogform','index','default');
-    }
+    }*/
     
     public function ajaxAction(){
     	if ($this->getRequest()->isXmlHttpRequest()){
@@ -58,7 +59,7 @@ class Pacientes_IndexController extends Weezer_Controller_Base
 			$id =$this->_getParam('id');
 			
 			$ciudades_table = new Ciudades_Model_Ciudades();
-			$ciudades 		= $ciudades_table->fetchAll("ciu_idestado = '{$id}'", 'ciu_nombre');
+			$ciudades 		= $ciudades_table->fetchAll("id_entidad = '{$id}'", 'municipio');
 			$array_ciudades = array();
 			$array_ciudades = $ciudades->toArray();
 
@@ -69,7 +70,7 @@ class Pacientes_IndexController extends Weezer_Controller_Base
 			    //valor vacio default
 			    $valores_select_ciudad[''] = '';
 				foreach ($array_ciudades as $ciudad){
-					$valores_select_ciudad[$ciudad['ciu_id']] = utf8_encode($ciudad['ciu_nombre']);
+					$valores_select_ciudad[$ciudad['id_municipio']] = utf8_encode($ciudad['municipio']);
 				}
 				$select_ciudades = $this->view->formSelect("cli_ciudad",null,array('class' => 'span2'),$valores_select_ciudad);
 			}

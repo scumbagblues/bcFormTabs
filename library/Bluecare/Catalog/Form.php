@@ -4,6 +4,7 @@ class Bluecare_Catalog_Form extends Zend_Form{
 	
 	protected $_form_name;
 	protected $_enfermedad;
+	protected $_usuario;
 	protected $_decorators_default 	= array('Composite');
 	protected $_label_submit = 'Guardar';
 	
@@ -232,14 +233,7 @@ class Bluecare_Catalog_Form extends Zend_Form{
 			$options['multiOptions'] = $element->multioptions;
 			$options['registerInArrayValidator'] = false;
 		}
-		//Se agregan validadores
-		/*
-		if (!is_null($element->validator)){
-			$options['validators'] = $element->validator;
-		}else{
-			$options['validators'] = array();
-		}*/
-			
+		
 		$options ['decorators'] = $this->_decorators_default;
 		if (!is_null($element->decorator)){
 			$decorador = $element->decorator;
@@ -310,6 +304,11 @@ class Bluecare_Catalog_Form extends Zend_Form{
 	 */
 	public function setEnfermedad($cie_id_enfermedad){
 		$this->_enfermedad = $cie_id_enfermedad;
+	}
+	
+	
+	public function setUsuario($id_usuario){
+		$this->_usuario = $id_usuario;
 	}
 	
 	/**

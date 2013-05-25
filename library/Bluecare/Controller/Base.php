@@ -4,6 +4,7 @@ class Bluecare_Controller_Base extends Zend_Controller_Action{
 	
 	protected $_form_name;
 	protected $_enfermedad_cie;
+	protected $_id_user;
 	
 	public function createForm($params){
 		
@@ -12,6 +13,9 @@ class Bluecare_Controller_Base extends Zend_Controller_Action{
 
 		if (isset($params['enfermedad'])){
 			$this->_enfermedad_cie = $params['enfermedad'];
+		}
+		if (isset($params['usuario'])){
+			$this->_id_user = $params['usuario'];
 		}
 		
 		$form_params = array(
@@ -56,7 +60,9 @@ class Bluecare_Controller_Base extends Zend_Controller_Action{
 		$conceptos = $concepts->info;
 		
 		$form_data = $this->getArrayFormData($conceptos, $form_data);
-	
+		$form_model= new Bluecare_Model_Base();
+		$user_data = $form_model->getUserData($this->_id_user); 
+		
 		foreach ($form_data as $key => $value){
 			$concepto = new stdClass();
 			$concepto->Nombre = $key;
@@ -64,6 +70,11 @@ class Bluecare_Controller_Base extends Zend_Controller_Action{
 			
 			array_push($send_data, $concepto);
 		}
+
+		$responsable = new stdClass();
+		$responsable->Nombre = 'RESPONSABLE';
+		$responsable->Valor  = $user_data['nombre'];
+		array_push($send_data, $responsable);
 		
 		$parametros_ws = array("Key" => $key_ws, "Conceptos" => $send_data);
 		//var_dump($parametros_ws);die;
@@ -73,8 +84,6 @@ class Bluecare_Controller_Base extends Zend_Controller_Action{
 	}
 	
 	protected function getArrayFormData($concepts,$form_data){
-		//array_unshift($concepts, 'CODIGO_APLICACION');
-		//var_dump($concepts,$form_data,array_diff($concepts, $form_data));die;
 		$form_data = array_combine($concepts, $form_data);
 		
 		return $form_data;

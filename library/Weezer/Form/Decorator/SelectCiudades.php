@@ -36,12 +36,12 @@ class Weezer_Form_Decorator_SelectCiudades extends Zend_Form_Decorator_Abstract{
 		}else{
 			$where = "ciu_activo = '1'";
 		}
-		$ciudades = $ciudades_model->fetchAll($where,'ciu_nombre');
+		$ciudades = $ciudades_model->fetchAll();
 		$valores_select_ciudades = array();
 		//valor vacio por default
 		$valores_select_ciudades[''] = '';
 		foreach ($ciudades->toArray() as $ciudad){
-			$valores_select_ciudades[$ciudad['ciu_id']] = utf8_encode($ciudad['ciu_nombre']);
+			$valores_select_ciudades[$ciudad['id_municipio']] = utf8_encode($ciudad['municipio']);
 		}
 	
 		return $valores_select_ciudades;

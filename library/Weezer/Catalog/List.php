@@ -127,7 +127,7 @@ class Weezer_Catalog_List{
 		
 		//Si se mando la opcion query no se ejecutara el query por default
 		if (is_null($this->_query)){
-			$data 	= $list_table->getAll($where);
+			$data 	= $list_table->getAll(/*$where*/);
 		}else{
 			$db 	= 	Zend_Db_Table_Abstract::getDefaultAdapter();
 			$data 	=	$db->fetchAll($this->_query);

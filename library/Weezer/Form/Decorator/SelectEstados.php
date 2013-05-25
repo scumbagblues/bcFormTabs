@@ -30,14 +30,14 @@ implements Weezer_Form_Decorator_Interface{
 	public function getDecoratorInfo(){
 		$estados_model = new Estados_Model_Estados();
 		
-		$estados = $estados_model->fetchAll("est_activo='1'",'est_nombre');
+		$estados = $estados_model->fetchAll();
 		
 		$valores_select_estado = array();
 		
 		//valor vacio por default
 		$valores_select_estado[''] = '';
 		foreach ($estados->toArray() as $estado){
-			$valores_select_estado[$estado['est_id']] = $estado['est_nombre'];
+			$valores_select_estado[$estado['id_ent']] = $estado['entidad'];
 		}
 		
 		return $valores_select_estado;

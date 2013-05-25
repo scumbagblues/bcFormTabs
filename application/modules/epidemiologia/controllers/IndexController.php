@@ -9,8 +9,10 @@ class Epidemiologia_IndexController extends Bluecare_Controller_Base
     }
 
     public function indexAction(){
-    	$id_cie = $this->_getParam('id');
-    	$params = array('enfermedad' => $id_cie);
+    	$params 	= $this->_getAllParams();
+    	$id_cie 	= $params['id'];
+    	$id_user 	= $params['iduser'];
+    	$params = array('enfermedad' => $id_cie,'usuario' => $id_user);
     	$form = $this->createForm($params);
     }
 
