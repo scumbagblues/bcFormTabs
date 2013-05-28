@@ -1,3 +1,4 @@
+
 <script type="text/javascript" src="<?php echo $this->baseUrl() . "/js/jquery/"?>messages.es.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseUrl() . "/js/jquery/"?>parsley.js"></script>
 <?php
@@ -12,14 +13,17 @@
 	    </div>
 	    <hr>
 	    <div class="divisor"></div>
+	    	
 	    	<?php  
 	    		if (!is_null($this->no_form)){
 	    			echo $this->no_form;
 	    		}else{
+	    			echo "<div id='accordion'>";
 	    			echo $this->form;
+	    			echo "</div>";
 	    		}
 	    	?>
-
+			
 			
 			<!-- Leyenda al final de la forma -->
 			<?php 

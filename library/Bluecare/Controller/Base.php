@@ -5,6 +5,7 @@ class Bluecare_Controller_Base extends Zend_Controller_Action{
 	protected $_form_name;
 	protected $_enfermedad_cie;
 	protected $_id_user;
+	protected $_id_paciente;
 	
 	public function createForm($params){
 		
@@ -17,6 +18,9 @@ class Bluecare_Controller_Base extends Zend_Controller_Action{
 		if (isset($params['usuario'])){
 			$this->_id_user = $params['usuario'];
 		}
+		if (isset($params['paciente'])){
+			$this->_id_paciente = $params['paciente'];
+		}
 		
 		$form_params = array(
 				'formName' => 'epidemiologia',
@@ -26,6 +30,7 @@ class Bluecare_Controller_Base extends Zend_Controller_Action{
 						'data-show-errors' => 'true',
 				),
 				'enfermedad' => $this->_enfermedad_cie,
+				'paciente' => $this->_id_paciente,
 				/*'formParams' 		=> $params,*/
 				'formData'  		=> $form_data,
 				/*'encTypeMultipart' 	=> $flag_enc_type*/

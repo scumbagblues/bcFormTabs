@@ -7,6 +7,7 @@ class Bluecare_Catalog_Form extends Zend_Form{
 	protected $_usuario;
 	protected $_decorators_default 	= array('Composite');
 	protected $_label_submit = 'Guardar';
+	protected $_idpaciente;
 	
 	
 	public function render($view = NULL){
@@ -96,15 +97,18 @@ class Bluecare_Catalog_Form extends Zend_Form{
 		 * 	$section_name = $sections[4]->Nombre;
 			$this->_processQuestions($sections[6]);
 		 */
-
+		
 		foreach ($sections as $key => $questions){
 			$section_name = $questions->Nombre;
+			//Agregar div abierto 
 			$this->addElement('text',$section_name,array('decorators' => array('SectionSeparator')
-														 ,'attribs' => array('name' => $section_name)));
+														 ));
+			$this->addElement('text',$section_name,array('decorators' => array('Divstart')));											 
 			if (!is_null($questions->Preguntas)){
 				$this->_processQuestions($questions);
-			}											 
-			
+			}
+			$this->addElement('text',$section_name,array('decorators' => array('Divend')));											 
+			//Agregar div cerrado
 		}
 			
 		$this->addElement ( 'submit', $this->_label_submit, array ('class' => 'btn btn-primary btn-large', 'decorators' => array ('Submit' ) ) );
@@ -165,6 +169,7 @@ class Bluecare_Catalog_Form extends Zend_Form{
 				}
 				
 				$element->label = $label;
+				$element->value = $question->ValorDefecto;
 				$element->name = $question->Concepto;
 			
 				$this->_processElement($element);
@@ -209,6 +214,7 @@ class Bluecare_Catalog_Form extends Zend_Form{
 				}
 				
 				$element->label = $label;
+				$element->value = $quest->Preguntas->PreguntaDTO->ValorDefecto;
 				$element->name = $quest->Preguntas->PreguntaDTO->Concepto;
 				
 				$this->_processElement($element);
@@ -248,7 +254,30 @@ class Bluecare_Catalog_Form extends Zend_Form{
 		$concept_names->data[] = $element->name;
 		$element_object = $this->createElement($element->html_type, $element->name, $options );	
 		$element_object->clearFilters();
+		$this->addValuePacientes($element);
+		$element_object->setValue($element->value);
 		$this->addElement($element_object);
+	}
+	
+	/**
+	 * 
+	 * Metodo para agregar valores por default a los campos del paciente
+	 * @param unknown_type $element
+	 */
+	protected function addValuePacientes(& $element){
+		
+		$paciente_data = $this->getPacienteInfo();								
+		foreach ($paciente_data as $key => $value){
+			$pattern = "/^{$key}+\./";
+			
+			if (preg_match($pattern, $element->name)){
+				$element->value = $value;
+			}else{
+				//$element->value = '';
+			}
+		}						
+								
+						
 	}
 	
 	
@@ -333,5 +362,76 @@ class Bluecare_Catalog_Form extends Zend_Form{
 		if ($flag){
 			$this->setAttrib('enctype', Zend_Form::ENCTYPE_MULTIPART);
 		}
+	}
+	
+	public function getPacienteInfo(){
+
+		$element_values = array();
+		$form_model = new Bluecare_Model_Base();
+		$paciente_data = $form_model-> getPacienteData($this->_idpaciente);
+		$tipo_edades = $this->getTypeAges($paciente_data['fecha_nacimiento']);
+		
+		
+		$element_values['APPATERNO'] = $paciente_data['app'];
+		$element_values['APMATERNO'] = $paciente_data['apm'];
+		$element_values['NOMBRE'] = $paciente_data['nombre'];
+		$element_values['FECHA_NACIMIENTO'] = $this->_modifyTypeDate($paciente_data['fecha_nacimiento']);
+		$element_values['EDAD_ANIOS'] = $tipo_edades['anios'];
+		$element_values['EDAD_MESES'] = $tipo_edades['meses'];
+		$element_values['EDAD_DIAS'] = $tipo_edades['dias'];
+		$element_values['DOMICILIO_CALLE'] = $paciente_data['calle'];
+		$element_values['DOMICILIO_COLONIA'] = $paciente_data['colonia'];
+		$element_values['SEXO'] = $this->_getSexoPaciente($paciente_data['sexo']);
+		//$element_values['ESTADO'] = $paciente_data['entidad'];
+		//$element_values['CIUDAD'] = $this->_getCity($paciente_data['municipio'], $paciente_data['entidad']);
+		$element_values['CIUDAD'] = $paciente_data['municipio'];
+		
+		
+		return $element_values;
+	}
+	
+	protected function getTypeAges($year){
+		$edades = array();
+		
+		$anios = date('Y') - $year;
+		$anios_meses = $anios * 12;
+		$anios_dias = $anios * 365;
+		
+		$edades['anios'] = $anios;
+		$edades['meses'] = $anios_meses;
+		$edades['dias'] = $anios_dias;
+		
+		return $edades;
+		
+	}
+	
+	protected function _getCity($id_ciudad,$id_estado){
+		$bluecare_model = new Bluecare_Model_Base();
+		$form_id_ciudad = $bluecare_model->getCity($id_ciudad, $id_estado);
+		
+		return $form_id_ciudad;
+	}
+	
+	protected function _getSexoPaciente($sexo){
+		$result = '';
+		
+		if ($sexo == 'h'){
+			$result = '1';
+		}else if ($sexo == 'm'){
+			$result = '2';
+		}
+		
+		return $result;
+	}
+	
+	protected function _modifyTypeDate($date){
+		$array_date = explode('-', $date);
+		$new_date = $array_date[2] . '/' . $array_date[1]  . '/' . $array_date[0] . ' 00:00:00';
+		
+		return $new_date;
+	}
+	
+	public function setPaciente($idpaciente){
+		$this->_idpaciente = $idpaciente;
 	}
 }

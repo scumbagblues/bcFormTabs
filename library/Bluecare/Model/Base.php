@@ -16,4 +16,19 @@ class Bluecare_Model_Base extends Zend_Db_Table_Abstract{
 		
 		return $user_data;
 	}
+	
+	public function getPacienteData($id_paciente){
+		$paciente_model = new Pacientes_Model_Pacientes();
+		$paciente_data = $paciente_model->getRow("id_paciente = {$id_paciente}");
+		
+		return $paciente_data;
+	}
+	
+	public function getCity($id_ciudad,$id_estado){
+		$ciudad_model = new Ciudades_Model_Ciudades();
+		$ciudad = $ciudad_model->getRow("id_municipio = {$id_ciudad} AND id_entidad = {$id_estado}");
+
+		return $ciudad['id_municpio'];
+	}
+		
 }
