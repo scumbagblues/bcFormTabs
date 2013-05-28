@@ -1,4 +1,8 @@
-
+ <script>
+  $(function() {
+    $( "#tabs" ).tabs();
+  });
+  </script>
 <script type="text/javascript" src="<?php echo $this->baseUrl() . "/js/jquery/"?>messages.es.js"></script>
 <script type="text/javascript" src="<?php echo $this->baseUrl() . "/js/jquery/"?>parsley.js"></script>
 <?php
@@ -13,14 +17,27 @@
 	    </div>
 	    <hr>
 	    <div class="divisor"></div>
-	    	
+	  		<div id="tabs">
+	  		<?php 
+	  			if (is_array($this->tabs) && !empty($this->tabs)){
+	  		?>		 
+	  				<ul>
+	  		<?php 		
+	  				foreach ($this->tabs as $href => $title_tab){
+	  					echo "<li><a href='#{$href}'>{$title_tab}</a></li>";
+	  				}
+	  			}
+	  		?>       
+	  				</ul>
+	    	   
 	    	<?php  
+	    		
 	    		if (!is_null($this->no_form)){
 	    			echo $this->no_form;
 	    		}else{
-	    			echo "<div id='accordion'>";
+	    			//echo "<div id='tabs'>";
 	    			echo $this->form;
-	    			echo "</div>";
+	    			//echo "</div>";
 	    		}
 	    	?>
 			
@@ -32,7 +49,8 @@
 				Los campos con * son obligatorios	
 			<?php 
 			}		
-			?>				
+			?>		
+		</div>			
 	 </div>		
 	 <script type="text/javascript">
 		$('#frmepidemiologia').parsley( {

@@ -97,21 +97,38 @@ class Bluecare_Catalog_Form extends Zend_Form{
 		 * 	$section_name = $sections[4]->Nombre;
 			$this->_processQuestions($sections[6]);
 		 */
-		
+		$sections_array = array();
+		$total_sections = count($sections);
+		$inc_sec = 1;
 		foreach ($sections as $key => $questions){
 			$section_name = $questions->Nombre;
-			//Agregar div abierto 
-			$this->addElement('text',$section_name,array('decorators' => array('SectionSeparator')
-														 ));
-			$this->addElement('text',$section_name,array('decorators' => array('Divstart')));											 
+			$sections_array[$this->filterName($section_name)] = $section_name;
+			//$this->addElement('text',$section_name,array('decorators' => array('SectionSeparator')));
+			//$element_group[] = $section_name . $inc;	
+			//$elements[] = $section_name;											 
 			if (!is_null($questions->Preguntas)){
-				$this->_processQuestions($questions);
+				$question_elements = $this->_processQuestions($questions);
+				
+				if ($inc_sec == $total_sections){
+					$this->addElement ( 'submit', $this->_label_submit, array ('class' => 'btn btn-primary btn-large', 'decorators' => array ('Submit' ) ) );
+					$question_elements = array_merge($question_elements,array($this->_label_submit));
+				}
+				$this->addDisplayGroup($question_elements, $section_name);
+				
+				$group_fields = $this->getDisplayGroup($section_name);
+				$group_fields->removeDecorator('HtmlTag');
+				$group_fields->removeDecorator('DtDdWrapper');
+				
+				$decorators['Group'] = new Bluecare_Form_Decorator_Group($this->filterName($section_name));
+				$group_fields->addDecorators($decorators);
+				$group_fields->setLegend($section_name);	
 			}
-			$this->addElement('text',$section_name,array('decorators' => array('Divend')));											 
-			//Agregar div cerrado
+			$inc_sec++;							 
 		}
-			
-		$this->addElement ( 'submit', $this->_label_submit, array ('class' => 'btn btn-primary btn-large', 'decorators' => array ('Submit' ) ) );
+		$view = $this->getView();
+		$view->tabs = $sections_array;
+		
+		
 }
 	
 	
@@ -124,8 +141,6 @@ class Bluecare_Catalog_Form extends Zend_Form{
 	protected function _processQuestions($quest){
 		
 		$elements = array();
-		
-		
 		
 		if (is_array($quest->Preguntas->PreguntaDTO)){
 			foreach ($quest->Preguntas->PreguntaDTO as $key => $question){
@@ -173,6 +188,7 @@ class Bluecare_Catalog_Form extends Zend_Form{
 				$element->name = $question->Concepto;
 			
 				$this->_processElement($element);
+				$elements[] = $this->filterName($element->name);
 			}
 		}else{
 				$label 			= $quest->Preguntas->PreguntaDTO->Nombre;
@@ -218,9 +234,11 @@ class Bluecare_Catalog_Form extends Zend_Form{
 				$element->name = $quest->Preguntas->PreguntaDTO->Concepto;
 				
 				$this->_processElement($element);
+				
+				$elements[] = $this->filterName($element->name);
 		}
 		
-		
+		return $elements;
 	}
 	
 	protected function _processElement($element){
@@ -256,7 +274,9 @@ class Bluecare_Catalog_Form extends Zend_Form{
 		$element_object->clearFilters();
 		$this->addValuePacientes($element);
 		$element_object->setValue($element->value);
-		$this->addElement($element_object);
+		$element = $this->addElement($element_object);
+	
+		return $element->name;
 	}
 	
 	/**
