@@ -64,7 +64,7 @@ class ZendX_JQuery_View_Helper_DatePicker extends ZendX_JQuery_View_Helper_UiWid
 		//Modificacion rcortes
 		//FIXME crear clase que herede y ahi crear el plugin para el timepicker
         //Modifique de datepicker a datetimepicker para que tome el plugin de hh:mm:ss
-        $js = sprintf('%s("#%s").datetimepicker(%s);',
+        $js = sprintf('%s("#%s").datepicker(%s);',
                 ZendX_JQuery_View_Helper_JQuery::getJQueryHandler(),
                 $attribs['id'],
                 $params

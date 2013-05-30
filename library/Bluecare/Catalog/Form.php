@@ -245,7 +245,7 @@ class Bluecare_Catalog_Form extends Zend_Form{
 		$options = array();
 		
 		if($element->required){
-			$options['field_attribs'] = array('data-required' => 'true');
+			//$options['field_attribs'] = array('data-required' => 'true');
 			$options['required'] = TRUE;
 			//$options['validators'] = array(array('Digits', false,array('messages' => array('notDigits' => 'Only digits are allowed here'))));
 		}
@@ -446,7 +446,7 @@ class Bluecare_Catalog_Form extends Zend_Form{
 	
 	protected function _modifyTypeDate($date){
 		$array_date = explode('-', $date);
-		$new_date = $array_date[2] . '/' . $array_date[1]  . '/' . $array_date[0] . ' 00:00:00';
+		$new_date = $array_date[2] . '/' . $array_date[1]  . '/' . $array_date[0] /*. ' 00:00:00'*/;
 		
 		return $new_date;
 	}

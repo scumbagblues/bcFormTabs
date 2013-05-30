@@ -19,7 +19,7 @@ class Bluecare_Model_Base extends Zend_Db_Table_Abstract{
 	
 	public function getPacienteData($id_paciente){
 		$paciente_model = new Pacientes_Model_Pacientes();
-		$paciente_data = $paciente_model->getRow("id_paciente = {$id_paciente}");
+		$paciente_data = $paciente_model->getRow("nexpediente = {$id_paciente}");
 		
 		return $paciente_data;
 	}

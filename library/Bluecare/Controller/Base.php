@@ -45,14 +45,18 @@ class Bluecare_Controller_Base extends Zend_Controller_Action{
 		if ($this->getRequest()->isPost()){
 			$form_data = $this->getRequest()->getPost();
 			
-			//Se guardan los datos
-			$result = $this->_processRequest($form_data);
-			if (!is_null($result)){
-				//redirige
-				var_dump($result);die;
+			if ($form->isValid($form_data)){
+				$result = $this->_processRequest($form_data);
+				if (!is_null($result)){
+					//redirige
+					var_dump($result);die;
+				}else{
+					//muestra error
+				}
 			}else{
-				//muestra error
+				$form->populate($form_data);
 			}
+			
 		}
 	}
 	
@@ -82,7 +86,6 @@ class Bluecare_Controller_Base extends Zend_Controller_Action{
 		array_push($send_data, $responsable);
 		
 		$parametros_ws = array("Key" => $key_ws, "Conceptos" => $send_data);
-		//var_dump($parametros_ws);die;
 		$resultado = $bluecare_ws->insertData($parametros_ws);
 		
 		return $resultado;

@@ -1,16 +1,10 @@
-<?php
-echo $this->doctype('HTML5');
-$this->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
-$this->headTitle()->setSeparator(' - ');
-$this->headTitle('Blue-Care');
-
-?>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
 	<head>
-		<?php echo $this->headMeta(); ?>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
 	    <meta name="description" content="">
 	    <meta name="author" content="scumbagblues">
-		<?php echo $this->headTitle(); ?>
+		<title>Blue-Care</title>	
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<?php echo $this->jQuery();?>
 		<?php echo $this->headScript()->prependFile($this->baseUrl() . "/js/bootbox.js")

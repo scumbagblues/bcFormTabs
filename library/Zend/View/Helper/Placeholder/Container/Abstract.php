@@ -345,6 +345,13 @@ abstract class Zend_View_Helper_Placeholder_Container_Abstract extends ArrayObje
 
         return $nextIndex = max($keys) + 1;
     }
+    
+ 	public function ksort()
+    {
+        $items = $this->getArrayCopy();
+        ksort($items);
+        $this->exchangeArray($items);
+    }
 
     /**
      * Render the placeholder
