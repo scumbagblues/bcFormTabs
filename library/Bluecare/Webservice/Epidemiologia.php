@@ -24,7 +24,7 @@ class Bluecare_Webservice_Epidemiologia{
 	public function getFormResult($cie_enfermedad){
 		$params = array('Key' => $this->_KEY_CATEGORIA, 'CIE10Code'=> $cie_enfermedad);
 		$form_result = $this->_client_wsdl->RetrieveFormulario($params);
-		var_dump($this->_client_wsdl->getFunctions());die;
+		//var_dump($this->_client_wsdl->getFunctions());die;
 		return $form_result->RetrieveFormularioResult;
 	}
 	
